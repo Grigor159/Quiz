@@ -7,19 +7,17 @@ export function loading(description: string) {
   });
 }
 
-export function success(title: string, description: string) {
+export function success(title: string) {
   toaster.create({
     type: "success",
-    title,
-    description,
+    title
   });
 }
 
-export function error(title: string, description: string) {
+export function error(title: string) {
   toaster.create({
     type: "error",
-    title,
-    description,
+    title
   });
 }
 

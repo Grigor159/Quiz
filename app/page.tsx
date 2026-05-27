@@ -489,7 +489,7 @@ function Step6({
         },
         EMAILJS_PUBLIC_KEY,
       );
-      success("Պայմանավորվեցինք ❤️", `${formatDate(selectedDate)} ${time}`);
+      success("Պայմանավորվեցինք ❤️");
       onDone(selectedDate, h, m);
     } catch {
       error("Շուղարկվեց!");
