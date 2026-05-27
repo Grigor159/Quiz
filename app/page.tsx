@@ -97,7 +97,7 @@ function Calendar({
         </button>
       </div>
       <div className="cal-days-header">
-        {["Երկ", "Երք", "Չրք", "Հնք", "Ուռ", "Շbt", "Կrk"].map((d) => (
+        {WEEKDAYS_SHORT.map((d) => (
           <div key={d} className="cal-day-label">
             {d}
           </div>
