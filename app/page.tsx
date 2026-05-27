@@ -499,7 +499,7 @@ function Step6({
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քayл 06 / 06</div>
+      <div className="step-number">Քայլ 06 / 06</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
 
