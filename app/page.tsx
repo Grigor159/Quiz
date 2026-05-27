@@ -41,8 +41,7 @@ export const WEEKDAYS_FULL = [
 ];
 
 const APPOINTMENT_OPTIONS = [
-  { value: "", label: "Ընտրիր..." },
-  // { value: "walk", label: "🚶 Զբոսանք" },
+  { value: "", label: "Ընտրի..." },
   { value: "cinema", label: "💔 Նեղանալ իրարից" },
   { value: "stay_home", label: "🏠 Տանը մնալ" },
   { value: "coffee", label: "☕ Կոֆե խմել" },
@@ -178,7 +177,7 @@ function ProgressBar({ current }: { current: number }) {
 function Step1({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">ՔԱՅԼ 01 / 06</div>
+      <div className="step-number">ՔԱՅԼ 1 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Մենք բան էինք որոշել, բայց չենք արել?</h1>
       😏
@@ -229,7 +228,7 @@ function Step2({ onNext }: { onNext: () => void }) {
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 02 / 06</div>
+      <div className="step-number">Քայլ 2 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Որն էր որ?</h1>
       😏
@@ -312,7 +311,7 @@ function Step4({ onNext }: { onNext: () => void }) {
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 04 / 06</div>
+      <div className="step-number">Քայլ 4 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Բա խի?</h1>
       {showHint && (
@@ -340,7 +339,7 @@ function Step4({ onNext }: { onNext: () => void }) {
 function Step5({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 05 / 06</div>
+      <div className="step-number">Քայլ 5 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">
         Պատճառը տեղնա ու ժամը որ չենք հարմարացնում{" "}
@@ -416,7 +415,7 @@ function Step6({
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 06 / 06</div>
+      <div className="step-number">Քայլ 6 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
 
