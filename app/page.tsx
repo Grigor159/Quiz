@@ -467,7 +467,7 @@ function Step6({
     }
 
     if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
-      error("Շես հավատա, բայց ծննունդսա էտ օրը։");
+      error("Շես հավատա, բայց ծնունդսա էտ օրը։");
       return;
     }
 
