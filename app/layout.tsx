@@ -3,7 +3,7 @@ import { Provider } from "@/components/ui/provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Մի Հարց Ունեմ...",
+  title: "Հարցեր...",
   description: "Կարևոր հարցեր",
 };
 
