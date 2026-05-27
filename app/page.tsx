@@ -3,31 +3,29 @@ import { useEffect, useState } from "react";
 import { error, success } from "@/components/ui/alerts";
 import emailjs from "@emailjs/browser";
 
-// const MONTH_NAMES = ["Հունվar", "Փetrvari", "Маrt", "Апrel", "Маис", "Hunис", "Hulис", "Огosт", "Seпtemper", "Окtemper", "Noyemper", "Dektemper"];
-
 const MONTHS = [
-  "Հունվար", // January
-  "Փետրվար", // February
-  "Մարտ", // March
-  "Ապրիլ", // April
-  "Մայիս", // May
-  "Հունիս", // June
-  "Հուլիս", // July
-  "Օգոստոս", // August
-  "Սեպտեմբեր", // September
-  "Հոկտեմբեր", // October
-  "Նոյեմբեր", // November
+  "Հունվար",
+  "Փետրվար",
+  "Մարտ",
+  "Ապրիլ",
+  "Մայիս",
+  "Հունիս",
+  "Հուլիս",
+  "Օգոստոս",
+  "Սեպտեմբեր",
+  "Հոկտեմբեր",
+  "Նոյեմբեր",
   "Դեկտեմբեր",
 ];
 
 export const WEEKDAYS_SHORT = [
-  "Երկ", // Երկուշաբթի
-  "Երք", // Երեքշաբթի
-  "Չրք", // Չորեքշաբթի
-  "Հնգ", // Հինգշաբթի
-  "Ուրբ", // Ուրբաթ
-  "Շբթ", // Շաբաթ
-  "Կիր", // Կիրակի
+  "Երկ",
+  "Երք",
+  "Չրք",
+  "Հնգ",
+  "Ուրբ",
+  "Շբթ",
+  "Կիր",
 ];
 
 export const WEEKDAYS_FULL = [
@@ -383,7 +381,7 @@ function Step6({
     }
 
     if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
-      error("Շես հավատա, բայց ծնունդսա էտ օրը։");
+      error("Չես հավատա, բայց ծնունդսա էտ օրը։");
       return;
     }
 
