@@ -466,6 +466,11 @@ function Step6({
       return;
     }
 
+    if (!time) {
+      error("Ժամը պարտադիր է։ ⏰");
+      return;
+    }
+
     if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
       error("Շես հավատա, բայց ծնունդսա էտ օրը։");
       return;
