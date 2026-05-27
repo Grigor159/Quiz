@@ -216,7 +216,6 @@ function Step2({ onNext }: { onNext: () => void }) {
       const label =
         APPOINTMENT_OPTIONS.find((o) => o.value === selected)?.label ||
         selected;
-      console.log(label);
       error(
         label?.includes("Նեղանալ իրարից")
           ? "Էլ մի, տենց բան չի եղել😊"
