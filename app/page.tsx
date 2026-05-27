@@ -573,7 +573,7 @@ function FinalScreen({
 
 // ─── Main ───
 export default function Home() {
-  const [step, setStep] = useState(6);
+  const [step, setStep] = useState(1);
   const [finalData, setFinalData] = useState<{
     date: Date;
     h: number;
