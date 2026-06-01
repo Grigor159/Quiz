@@ -366,8 +366,10 @@ function Step6({
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
-  const formatDate = (d: Date) =>
-    `${WEEKDAYS_FULL[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  const formatDate = (d: Date) => {
+    const dayIndex = (d.getDay() + 6) % 7;
+    return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  };
 
   const handleAccept = async () => {
     if (!selectedDate) {
@@ -462,8 +464,10 @@ function FinalScreen({
   hour: number;
   min: number;
 }) {
-  const formatDate = (d: Date) =>
-    `${WEEKDAYS_FULL[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  const formatDate = (d: Date) => {
+    const dayIndex = (d.getDay() + 6) % 7;
+    return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  };
   return (
     <div className="final-screen">
       <div className="checkmark">☕</div>
