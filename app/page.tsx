@@ -2,48 +2,13 @@
 import { useEffect, useState } from "react";
 import { error, success } from "@/components/ui/alerts";
 import emailjs from "@emailjs/browser";
-
-const MONTHS = [
-  "Հունվար",
-  "Փետրվար",
-  "Մարտ",
-  "Ապրիլ",
-  "Մայիս",
-  "Հունիս",
-  "Հուլիս",
-  "Օգոստոս",
-  "Սեպտեմբեր",
-  "Հոկտեմբեր",
-  "Նոյեմբեր",
-  "Դեկտեմբեր",
-];
-
-export const WEEKDAYS_SHORT = [
-  "Երկ",
-  "Երք",
-  "Չրք",
-  "Հնգ",
-  "Ուրբ",
-  "Շբթ",
-  "Կիր",
-];
-
-export const WEEKDAYS_FULL = [
-  "Երկուշաբթի",
-  "Երեքշաբթի",
-  "Չորեքշաբթի",
-  "Հինգշաբթի",
-  "Ուրբաթ",
-  "Շաբաթ",
-  "Կիրակի",
-];
-
-const APPOINTMENT_OPTIONS = [
-  { value: "", label: "Ընտրի..." },
-  { value: "cinema", label: "💔 Նեղանալ իրարից" },
-  { value: "stay_home", label: "🏠 Տանը մնալ" },
-  { value: "coffee", label: "☕ Կոֆե խմել" },
-];
+import {
+  MONTHS,
+  WEEKDAYS_SHORT,
+  WEEKDAYS_FULL,
+  APPOINTMENT_OPTIONS,
+  STEPS,
+} from "@/utils/constants";
 
 // ─── Calendar ───
 function Calendar({
@@ -131,16 +96,6 @@ function Calendar({
   );
 }
 
-// ─── Progress ───
-const STEPS = [
-  { id: 1, label: "Ստugum" },
-  { id: 2, label: "Инч?" },
-  { id: 3, label: "Ката-ре՞л" },
-  { id: 4, label: "Ба xи?" },
-  { id: 5, label: "Патचарр" },
-  { id: 6, label: "Амропum" },
-];
-
 function ProgressBar({ current }: { current: number }) {
   return (
     <div className="progress-bar">
@@ -175,21 +130,25 @@ function ProgressBar({ current }: { current: number }) {
 function Step1({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">ՔԱՅԼ 1 / 6</div>
+      <div className="step-number">ՀԱՐՑ 1 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Մենք բան էինք որոշել, բայց չենք արել?</h1>
-      😏
+      <h1 className="quiz-title">
+        Իմ հետ կապված բարևից բացի ուրիշ բան չէիր ուզում ?😏
+      </h1>
+
       <div className="btn-row">
         <button
           className="btn danger-btn"
-          onClick={() => error("Հլը լավ մտածի 😏")}
+          onClick={() =>
+            error("Ասել ես,դրա համար էլ էս տարբերակն եմ ընտրել😏։")
+          }
         >
           Ոչ
         </button>
         <button
           className="btn primary"
           onClick={() => {
-            success("ԸՀԸԸԸԸ՛");
+            success("Էտ անցյալում մնաց,հիմա անցանք պատճառին։");
             onNext();
           }}
         >
@@ -202,48 +161,41 @@ function Step1({ onNext }: { onNext: () => void }) {
 
 function Step2({ onNext }: { onNext: () => void }) {
   const [selected, setSelected] = useState("");
-  const [hint, setHint] = useState(false);
 
   const handleNext = () => {
     if (!selected) {
       error("Ուր առանց ընտրելու?🙂");
       return;
     }
-    if (selected !== "coffee") {
-      const label =
-        APPOINTMENT_OPTIONS.find((o) => o.value === selected)?.label ||
-        selected;
-      error(
-        label?.includes("Նեղանալ իրարից")
-          ? "Էլ մի, տենց բան չի եղել😊"
-          : `${label}😏, լավնաաա, բայց չէ😊`,
-      );
-      return;
-    }
-    success("ԸՀԸԸԸԸ՛");
-    onNext();
+
+    const label =
+      APPOINTMENT_OPTIONS.find((o) => o.value === selected)?.label || selected;
+
+    sessionStorage.setItem("quiz_reason", label.split(" ").slice(1).join(" "));
+
+    success(
+      label?.includes("Անճաշակ")
+        ? "Ես էլ,թխի թող գա։🖐️​"
+        : label?.includes("Պատրաստ")
+          ? "Անցանք առաջ։"
+          : "Դժվար չէր կռահելը։😊",
+    );
+    setTimeout(() => {
+      onNext();
+    }, 1700);
   };
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 2 / 6</div>
+      <div className="step-number">ՀԱՐՑ 2 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Որն էր որ?</h1>
-      😏
-      {hint && (
-        <div className="alert info">
-          <span className="alert-icon">💡</span>
-          <span>Պպզել gim ի դեմը․․․․․․․․․․</span>
-        </div>
-      )}
+      <h1 className="quiz-title">Ու պատճառը․․․?😏</h1>
+
       <div className="select-wrapper">
         <select
           className="quiz-select"
           value={selected}
-          onChange={(e) => {
-            setSelected(e.target.value);
-            // error("");
-          }}
+          onChange={(e) => setSelected(e.target.value)}
         >
           {APPOINTMENT_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
@@ -254,9 +206,6 @@ function Step2({ onNext }: { onNext: () => void }) {
         <span className="select-arrow">▼</span>
       </div>
       <div className="btn-row">
-        <button className="btn" onClick={() => setHint((h) => !h)}>
-          {hint ? "✖️ Հաաաաաաաաաաա😊" : "💡 Բա որ միքիչ հուշեիք"}
-        </button>
         <button className="btn primary" onClick={handleNext}>
           Հետո
         </button>
@@ -268,18 +217,23 @@ function Step2({ onNext }: { onNext: () => void }) {
 function Step3({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 03 / 06</div>
+      <div className="step-number">ՀԱՐՑ 03 / 06</div>
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Խմել ենք?</h1>
-      😏
+      <h1 className="quiz-title">
+        Հաստատ վերլուծել ես ու կուզեիր ուրիշ ձև արտահայտած լինեիր վերջին
+        մտքերդ​💁‍♀️​​
+      </h1>
+
       <div className="btn-row">
         <button
           className="btn danger-btn"
           onClick={() =>
-            error("Լսի... ինձ էլ էր տենց թվում,բայց ոնց որ թե չէ😊😊😊")
+            error(
+              "Անհնարա, Не верю! , կարողա պահերա եղել,որ ասել ես ավելի կոպիտ պտի խոսացած լինեի 🙃, բայց ես էլ եմ նենցա վերլուծել, ու ասեմ, որ դրանից ավել չէր կարա լիներ😏։",
+            )
           }
         >
-          Այո
+          Ոչ
         </button>
         <button
           className="btn primary"
@@ -288,7 +242,7 @@ function Step3({ onNext }: { onNext: () => void }) {
             onNext();
           }}
         >
-          Ոչ
+          Այո
         </button>
       </div>
     </div>
@@ -297,24 +251,40 @@ function Step3({ onNext }: { onNext: () => void }) {
 
 function Step4({ onNext }: { onNext: () => void }) {
   const [text, setText] = useState("");
+  const [_, setTypedHistory] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowHint(true);
-    }, 5000);
+    }, 7000);
 
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!text.trim()) return;
+    const timer = setTimeout(() => {
+      setTypedHistory((prev) => {
+        const updated = [...prev, text];
+        sessionStorage.setItem("quiz_cover_history", JSON.stringify(updated));
+        return updated;
+      });
+    }, 700);
+    return () => clearTimeout(timer);
+  }, [text]);
+
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 4 / 6</div>
+      <div className="step-number">ՀԱՐՑ 4 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Բա խի?</h1>
+      <h1 className="quiz-title">
+        Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
+      </h1>
       {showHint && (
         <p className="quiz-desc">
-          Ստեղ պատասխան կարաս չնշես, զուտ անցի մյուսին😊
+          Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
+          սարքել եմ😊։
         </p>
       )}
       <textarea
@@ -335,14 +305,14 @@ function Step4({ onNext }: { onNext: () => void }) {
 }
 
 function Step5({ onNext }: { onNext: () => void }) {
+  const reason = sessionStorage.getItem("quiz_reason") || "";
+
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 5 / 6</div>
+      <div className="step-number">ՀԱՐՑ 5 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">
-        Պատճառը տեղնա ու ժամը որ չենք հարմարացնում{" "}
-      </h1>
-      😏
+      <h1 className="quiz-title">Պատճառը - {reason}</h1>
+
       <div className="reading-block">Դրա համար նայի ինչ եմ մտածել․․․</div>
       <div className="btn-row">
         <button className="btn primary" onClick={onNext}>
@@ -361,6 +331,13 @@ function Step6({
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [time, setTime] = useState("");
   const [sending, setSending] = useState(false);
+
+  const history = JSON.parse(
+    sessionStorage.getItem("quiz_cover_history") || "[]",
+  );
+  const coverHistory = history
+    .map((item: string, index: number) => `${index + 1}. ${item}`)
+    .join("\n");
 
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
@@ -382,25 +359,28 @@ function Step6({
       return;
     }
 
-    if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
-      error("Չես հավատա, բայց ծնունդսա էտ օրը։");
-      return;
-    }
+    // if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
+    //   error("Չես հավատա, բայց ծնունդսա էտ օրը։");
+    //   return;
+    // }
 
     const [rawH, rawM] = time.split(":");
     const h = parseInt(rawH ?? "");
     const m = parseInt(rawM ?? "");
 
     setSending(true);
+
     try {
       await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          title: "Կոֆե հանդիպում",
-          name: "Հասմիկ",
+          title: "Նամակ",
+          name: "Էլեն",
           date: formatDate(selectedDate),
           time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+          reason: sessionStorage.getItem("quiz_reason") || "",
+          cover: coverHistory,
         },
         EMAILJS_PUBLIC_KEY,
       );
@@ -415,7 +395,7 @@ function Step6({
 
   return (
     <div className="step-enter">
-      <div className="step-number">Քայլ 6 / 6</div>
+      <div className="step-number">ՀԱՐՑ 6 / 6</div>
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
 
@@ -470,7 +450,7 @@ function FinalScreen({
   };
   return (
     <div className="final-screen">
-      <div className="checkmark">☕</div>
+      {/* <div className="checkmark">☕</div> */}
       <h1 className="final-title">Ընտիր ❤️</h1>
       <div className="final-date-confirmed">
         <div className="confirmed-row">
@@ -489,13 +469,142 @@ function FinalScreen({
 }
 
 // ─── Main ───
+const PASSWORD_PART_1 = process.env.NEXT_PUBLIC_PASS_1!;
+const PASSWORD_PART_2 = process.env.NEXT_PUBLIC_PASS_2!;
+const PASSWORD_PART_3 = process.env.NEXT_PUBLIC_PASS_3!;
+
 export default function Home() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [showHint, setShowHint] = useState(false);
   const [step, setStep] = useState(1);
   const [finalData, setFinalData] = useState<{
     date: Date;
     h: number;
     m: number;
   } | null>(null);
+
+  useEffect(() => {
+    const isAuthenticated =
+      sessionStorage.getItem("quiz_authenticated") === "true";
+
+    setAuthenticated(isAuthenticated);
+    setAuthChecked(true);
+  }, []);
+
+  const isPart1Correct =
+    password.slice(0, PASSWORD_PART_1.length) === PASSWORD_PART_1;
+
+  const isPart2Correct =
+    password.slice(
+      PASSWORD_PART_1.length,
+      PASSWORD_PART_1.length + PASSWORD_PART_2.length,
+    ) === PASSWORD_PART_2;
+
+  const isPart3Correct =
+    password.slice(
+      PASSWORD_PART_1.length + PASSWORD_PART_2.length,
+      PASSWORD_PART_1.length + PASSWORD_PART_2.length + PASSWORD_PART_3.length,
+    ) === PASSWORD_PART_3;
+
+  const isPasswordCorrect =
+    password === `${PASSWORD_PART_1}${PASSWORD_PART_2}${PASSWORD_PART_3}`;
+
+  const handleLogin = () => {
+    if (!password.trim()) {
+      error("Հետ արի, առանց ծածկագրի չես անցնի։ 😏");
+      return;
+    }
+
+    if (!isPasswordCorrect) {
+      error("Չէէէ, մի բան էն շես անում։ 😏");
+      return;
+    }
+
+    sessionStorage.setItem("quiz_authenticated", "true");
+
+    success("Բարև 🖐️​");
+
+    setAuthenticated(true);
+  };
+
+  if (!authChecked) {
+    return null;
+  }
+
+  if (!authenticated) {
+    return (
+      <main className="quiz-wrapper">
+        <div className="quiz-card">
+          <div className="step-enter">
+            <div className="card-ornament">✦ ✦ ✦</div>
+
+            <h1 className="quiz-title">
+              Հուշումներով կիմանաս ծածկագիրը ու էն ինչ կտեսնես դա կլինի մեր
+              գաղտնիքը։ 🤫
+            </h1>
+
+            <p className="quiz-desc">
+              1. մեր առաջին հանդիպման օրը{" "}
+              {isPart1Correct && <span className="password-check">✓</span>}
+            </p>
+
+            <p className="quiz-desc">
+              2. ծննդյանդ օր ամիս տարի{" "}
+              {isPart2Correct && <span className="password-check">✓</span>}
+            </p>
+
+            <p className="quiz-desc">
+              3. քանի անգամ ենք խոսել իրար հետ{" "}
+              {isPart3Correct && <span className="password-check">✓</span>}
+            </p>
+
+            <p className="quiz-desc">
+              Մտածի մի քիչ ... եթե ինչ 1-ի մասով հուշում ունես։ 🙄
+            </p>
+
+            {showHint && (
+              <div className="alert info">
+                <span className="alert-icon">💡</span>
+
+                <span>Հուշում՝ ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️</span>
+              </div>
+            )}
+
+            <input
+              className="quiz-textarea"
+              type="password"
+              inputMode="numeric"
+              placeholder="Գաղտնաբառը..."
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleLogin();
+                }
+              }}
+              style={{
+                minHeight: 0,
+                height: 52,
+                resize: "none",
+              }}
+            />
+
+            <div className="btn-row">
+              <button className="btn" onClick={() => setShowHint((h) => !h)}>
+                {showHint ? "✖️ Լավ, հերիք ա հուշեմ 😊" : "💡 Մի հատ հուշում"}
+              </button>
+
+              <button className="btn primary" onClick={handleLogin}>
+                Մտնել
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="quiz-wrapper">

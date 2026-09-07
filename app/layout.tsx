@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Provider } from "@/components/ui/provider";
+import { ChakraUIProvider } from "@/providers/chakraProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -58,7 +58,7 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
-        <Provider>{children}</Provider>
+        <ChakraUIProvider>{children}</ChakraUIProvider>
       </body>
     </html>
   );

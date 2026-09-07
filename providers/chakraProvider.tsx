@@ -1,8 +1,8 @@
 "use client";
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
-import { Toaster } from "./toaster";
+import { Toaster } from "../components/ui/toaster";
 
-export function Provider({ children }: { children: React.ReactNode }) {
+export function ChakraUIProvider({ children }: { children: React.ReactNode }) {
   return (
     <ChakraProvider value={defaultSystem}>
       {children} <Toaster />
