@@ -432,29 +432,31 @@ function Step6({ onNext }: { onNext: () => void }) {
         <h1 className="quiz-title">Ինչնա էս ամենի իմաստը</h1>
 
         <p className="quiz-desc">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt
-          officiis explicabo mollitia voluptates rerum vel accusantium voluptate
-          at illo adipisci alias ad itaque animi harum deserunt obcaecati quae
-          architecto saepe, ipsum sed dolorum? Rem minus recusandae eaque
-          exercitationem eos! Facere hic aspernatur illum possimus consequuntur
-          consequatur, dolore praesentium. Repellendus quis illo, dicta ad
-          veritatis libero exercitationem incidunt quibusdam ipsam debitis qui
-          ipsum consequuntur laboriosam aliquam commodi, voluptas culpa officia
-          veniam quas est voluptatibus atque nemo ab. Aperiam dignissimos, quis
-          mollitia fugit quidem cum officiis consequatur voluptatibus illum
-          necessitatibus quaerat provident nobis odio eveniet libero ullam amet!
-          Adipisci nihil ut explicabo vero? Aspernatur vero omnis debitis odio
-          velit ipsa aut quas doloribus? Itaque magni iure sequi voluptatibus
-          laboriosam rem saepe, voluptate nemo quasi possimus corporis
-          perspiciatis repellat quisquam, ipsa reprehenderit assumenda cumque
-          laborum officiis dignissimos ullam eaque veniam deserunt! Ex officia
-          corporis iste aperiam asperiores excepturi, quos deserunt minus, error
-          tempore inventore accusantium necessitatibus nihil architecto eum aut
-          quisquam, nulla quod quae! Quo, perferendis quod. Modi saepe maiores
-          minima dolorem voluptates vel nulla cumque, assumenda optio est
-          perferendis architecto dignissimos neque delectus. Odit id inventore
-          rem, voluptas earum ad, quidem commodi dignissimos, fuga possimus
-          beatae sint veritatis in. Ipsa, laboriosam. Amet!
+          Էն, որ կարդում ես վկայումա, որ կարևորություն տրվեց երկուսիս կողմից էլ
+          էն ամեն ինչին, որ անուն ու բացատրություն չունի, բայց փոխարենը տեղա
+          ունեցել ու կամ ունի մեր առօրյայում ամենաքիչը մտքերի տեսքով:
+          <br />
+          Ես չեմ ասի, որ կսպասեմ ինչքան պետքա մինչև դու պատրաստ լինես, որովհետև
+          էտ իմ մասին չի, բայց վստահ ասում եմ, որ պատրաստ չլինելուդ տակ ընկած
+          բոլոր վախերին ու դժվարություններին ես պատրաստ եմ առերեսվեմ ու
+          կհամոզվես, որ դրանք մեր պարագայում ուղղակի հնարովի էին ու դրա համար
+          նենց չի, որ շատ բանա պետք (սկզբում մենակս էլ գլուխ կհանեմ):
+          <br />
+          Իրականում մի հայացքը ու մի քանի խոսքը բավականա, հատկապես, որ մենք հենց
+          տենց էինք սկսել, ուղղակի շեղվեցինք մի պահից ու գնացինք այլ ճանապարհով
+          ՝ անտեսելու, տենց կարծում էինք հեշտա:
+          <br />
+          Ես կրկին համոզվեցի, որ մի բան կա հեշտ ու դա լավատես լինելնա ու բեր տենց լինենք էս
+          հարցում, քանի որ ժամանակի ճնշման տակ առնվազն չենք կոտրվե ու կորցրե ու
+          ես հստակ գիտեմ ինչենք ուզում մենք արդեն:
+          <br />
+          <br />
+          Արի ուղղակի մեր հայացքներին թողենք նկատեն միմյանց ներկայությունը ու
+          հավատա իրանք գիտեն ինչ պետքա անեն:
+          <br />
+          <br />
+          Համ էլ հիմա սաղ սրտի վրա ենք քցել,որը էտքան էլ ցանկալի չի հատկապես իմ
+          տարիքում😄
         </p>
         <div className="btn-row" style={{ marginTop: 28 }}>
           <button className="btn primary" onClick={handleNext}>
