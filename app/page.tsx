@@ -4,97 +4,100 @@ import { error, success } from "@/components/ui/alerts";
 import emailjs from "@emailjs/browser";
 import {
   MONTHS,
-  WEEKDAYS_SHORT,
+  // WEEKDAYS_SHORT,
   WEEKDAYS_FULL,
   APPOINTMENT_OPTIONS,
   STEPS,
 } from "@/utils/constants";
+import { useOnTrue } from "@/hooks/useOnTrue";
+import { storage } from "@/lib/browser/storage";
+import Music from "@/components/music";
 
 // ─── Calendar ───
-function Calendar({
-  selectedDate,
-  onSelect,
-}: {
-  selectedDate: Date | null;
-  onSelect: (d: Date) => void;
-}) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const [viewYear, setViewYear] = useState(today.getFullYear());
-  const [viewMonth, setViewMonth] = useState(today.getMonth());
+// function Calendar({
+//   selectedDate,
+//   onSelect,
+// }: {
+//   selectedDate: Date | null;
+//   onSelect: (d: Date) => void;
+// }) {
+//   const today = new Date();
+//   today.setHours(0, 0, 0, 0);
+//   const [viewYear, setViewYear] = useState(today.getFullYear());
+//   const [viewMonth, setViewMonth] = useState(today.getMonth());
 
-  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-  const startOffset = firstDay === 0 ? 6 : firstDay - 1;
-  const cells: (number | null)[] = [
-    ...Array(startOffset).fill(null),
-    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-  ];
-  while (cells.length % 7 !== 0) cells.push(null);
+//   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+//   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+//   const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+//   const cells: (number | null)[] = [
+//     ...Array(startOffset).fill(null),
+//     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+//   ];
+//   while (cells.length % 7 !== 0) cells.push(null);
 
-  const prevMonth = () => {
-    if (viewMonth === 0) {
-      setViewMonth(11);
-      setViewYear((y) => y - 1);
-    } else setViewMonth((m) => m - 1);
-  };
-  const nextMonth = () => {
-    if (viewMonth === 11) {
-      setViewMonth(0);
-      setViewYear((y) => y + 1);
-    } else setViewMonth((m) => m + 1);
-  };
+//   const prevMonth = () => {
+//     if (viewMonth === 0) {
+//       setViewMonth(11);
+//       setViewYear((y) => y - 1);
+//     } else setViewMonth((m) => m - 1);
+//   };
+//   const nextMonth = () => {
+//     if (viewMonth === 11) {
+//       setViewMonth(0);
+//       setViewYear((y) => y + 1);
+//     } else setViewMonth((m) => m + 1);
+//   };
 
-  return (
-    <div className="cal-container">
-      <div className="cal-header">
-        <button className="cal-nav-btn" onClick={prevMonth}>
-          ‹
-        </button>
-        <div className="cal-month-title">
-          {MONTHS[viewMonth]} {viewYear}
-        </div>
-        <button className="cal-nav-btn" onClick={nextMonth}>
-          ›
-        </button>
-      </div>
-      <div className="cal-days-header">
-        {WEEKDAYS_SHORT.map((d) => (
-          <div key={d} className="cal-day-label">
-            {d}
-          </div>
-        ))}
-      </div>
-      <div className="cal-days-grid">
-        {cells.map((day, i) => {
-          if (!day)
-            return <div key={`e-${i}`} className="cal-day-cell empty" />;
-          const cellDate = new Date(viewYear, viewMonth, day);
-          cellDate.setHours(0, 0, 0, 0);
-          const isPast = cellDate < today;
-          const isToday = cellDate.getTime() === today.getTime();
-          const isSelected =
-            selectedDate && cellDate.getTime() === selectedDate.getTime();
-          let cls = "cal-day-cell";
-          if (isPast) cls += " past";
-          else if (isSelected) cls += " selected";
-          else if (isToday) cls += " today";
-          return (
-            <div
-              key={day}
-              className={cls}
-              onClick={() =>
-                !isPast && onSelect(new Date(viewYear, viewMonth, day))
-              }
-            >
-              {day}
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="cal-container">
+//       <div className="cal-header">
+//         <button className="cal-nav-btn" onClick={prevMonth}>
+//           ‹
+//         </button>
+//         <div className="cal-month-title">
+//           {MONTHS[viewMonth]} {viewYear}
+//         </div>
+//         <button className="cal-nav-btn" onClick={nextMonth}>
+//           ›
+//         </button>
+//       </div>
+//       <div className="cal-days-header">
+//         {WEEKDAYS_SHORT.map((d) => (
+//           <div key={d} className="cal-day-label">
+//             {d}
+//           </div>
+//         ))}
+//       </div>
+//       <div className="cal-days-grid">
+//         {cells.map((day, i) => {
+//           if (!day)
+//             return <div key={`e-${i}`} className="cal-day-cell empty" />;
+//           const cellDate = new Date(viewYear, viewMonth, day);
+//           cellDate.setHours(0, 0, 0, 0);
+//           const isPast = cellDate < today;
+//           const isToday = cellDate.getTime() === today.getTime();
+//           const isSelected =
+//             selectedDate && cellDate.getTime() === selectedDate.getTime();
+//           let cls = "cal-day-cell";
+//           if (isPast) cls += " past";
+//           else if (isSelected) cls += " selected";
+//           else if (isToday) cls += " today";
+//           return (
+//             <div
+//               key={day}
+//               className={cls}
+//               onClick={() =>
+//                 !isPast && onSelect(new Date(viewYear, viewMonth, day))
+//               }
+//             >
+//               {day}
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// }
 
 function ProgressBar({ current }: { current: number }) {
   return (
@@ -130,7 +133,7 @@ function ProgressBar({ current }: { current: number }) {
 function Step1({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 1 / 6</div>
+      {/* <div className="step-number">1 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">
         Իմ հետ կապված բարևից բացի ուրիշ բան չէիր ուզում ?😏
@@ -150,6 +153,7 @@ function Step1({ onNext }: { onNext: () => void }) {
           onClick={() => {
             success("Էտ անցյալում մնաց,հիմա անցանք պատճառին։");
             onNext();
+            storage.set("quiz_step", 2);
           }}
         >
           Այո
@@ -182,14 +186,15 @@ function Step2({ onNext }: { onNext: () => void }) {
     );
     setTimeout(() => {
       onNext();
+      storage.set("quiz_step", 3);
     }, 1700);
   };
 
   return (
     <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 2 / 6</div>
+      {/* <div className="step-number">2 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Ու պատճառը․․․?😏</h1>
+      <h1 className="quiz-title">Խի․․․?😏</h1>
 
       <div className="select-wrapper">
         <select
@@ -217,7 +222,7 @@ function Step2({ onNext }: { onNext: () => void }) {
 function Step3({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 03 / 06</div>
+      {/* <div className="step-number">03 / 06</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">
         Հաստատ վերլուծել ես ու կուզեիր ուրիշ ձև արտահայտած լինեիր վերջին
@@ -229,7 +234,7 @@ function Step3({ onNext }: { onNext: () => void }) {
           className="btn danger-btn"
           onClick={() =>
             error(
-              "Անհնարա, Не верю! , կարողա պահերա եղել,որ ասել ես ավելի կոպիտ պտի խոսացած լինեի 🙃, բայց ես էլ եմ նենցա վերլուծել, ու ասեմ, որ դրանից ավել չէր կարա լիներ😏։",
+              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չէր կարա լիներ😏։ Տակ շտո պտի համաձայնվես, որ անցնենք առաջ։",
             )
           }
         >
@@ -240,6 +245,7 @@ function Step3({ onNext }: { onNext: () => void }) {
           onClick={() => {
             success("ԸՀԸԸԸԸ՛");
             onNext();
+            storage.set("quiz_step", 4);
           }}
         >
           Այո
@@ -250,33 +256,63 @@ function Step3({ onNext }: { onNext: () => void }) {
 }
 
 function Step4({ onNext }: { onNext: () => void }) {
+  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_TWO!;
+  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+
   const [text, setText] = useState("");
-  const [_, setTypedHistory] = useState<string[]>([]);
+  const [history, setHistory] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
+  const [hasFocused, setHasFocused] = useState(false);
+
+  const coverHistory = history
+    .map((item: string, index: number) => `${index + 1}. ${item}`)
+    .join("\n");
 
   useEffect(() => {
+    if (!hasFocused) return;
+
     const timer = setTimeout(() => {
       setShowHint(true);
     }, 7000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [hasFocused]);
 
   useEffect(() => {
     if (!text.trim()) return;
     const timer = setTimeout(() => {
-      setTypedHistory((prev) => {
+      setHistory((prev) => {
         const updated = [...prev, text];
-        sessionStorage.setItem("quiz_cover_history", JSON.stringify(updated));
+        storage.set("quiz_cover_history", JSON.stringify(updated));
         return updated;
       });
     }, 700);
     return () => clearTimeout(timer);
   }, [text]);
 
+  const handleAccept = async () => {
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: "Էլեն",
+          reason: storage.get("quiz_reason") || "",
+          cover: coverHistory,
+        },
+        EMAILJS_PUBLIC_KEY,
+      );
+      onNext();
+      storage.set("quiz_step", 5);
+    } catch {
+      console.log("Շուղարկվեց!");
+    }
+  };
+
   return (
     <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 4 / 6</div>
+      {/* <div className="step-number">4 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">
         Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
@@ -289,14 +325,18 @@ function Step4({ onNext }: { onNext: () => void }) {
       )}
       <textarea
         className="quiz-textarea"
-        // placeholder="Որն է արդյոք պատճառը, որ մենք չենք խմել☕"
         placeholder="..."
         value={text}
+        onFocus={() => setHasFocused(true)}
         onChange={(e) => setText(e.target.value)}
         rows={3}
       />
       <div className="btn-row">
-        <button className="btn primary" onClick={onNext}>
+        <button
+          className="btn primary"
+          onClick={handleAccept}
+          disabled={!showHint}
+        >
           Հետո
         </button>
       </div>
@@ -305,17 +345,22 @@ function Step4({ onNext }: { onNext: () => void }) {
 }
 
 function Step5({ onNext }: { onNext: () => void }) {
-  const reason = sessionStorage.getItem("quiz_reason") || "";
+  const reason = storage.get("quiz_reason") || "";
+
+  const handleNext = () => {
+    onNext();
+    storage.set("quiz_step", 6);
+  };
 
   return (
     <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 5 / 6</div>
+      {/* <div className="step-number">5 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
       <h1 className="quiz-title">Պատճառը - {reason}</h1>
 
       <div className="reading-block">Դրա համար նայի ինչ եմ մտածել․․․</div>
       <div className="btn-row">
-        <button className="btn primary" onClick={onNext}>
+        <button className="btn primary" onClick={handleNext}>
           Հետո
         </button>
       </div>
@@ -323,117 +368,140 @@ function Step5({ onNext }: { onNext: () => void }) {
   );
 }
 
-function Step6({
-  onDone,
-}: {
-  onDone: (date: Date, hour: number, min: number) => void;
-}) {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [time, setTime] = useState("");
-  const [sending, setSending] = useState(false);
-
-  const history = JSON.parse(
-    sessionStorage.getItem("quiz_cover_history") || "[]",
-  );
-  const coverHistory = history
-    .map((item: string, index: number) => `${index + 1}. ${item}`)
-    .join("\n");
-
-  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
-  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
-
-  const formatDate = (d: Date) => {
-    const dayIndex = (d.getDay() + 6) % 7;
-    return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+function Step6({ onNext }: { onNext: () => void }) {
+  const handleNext = () => {
+    onNext();
+    storage.set("quiz_step", 7);
   };
-
-  const handleAccept = async () => {
-    if (!selectedDate) {
-      error("Ամսաթիվը պարտադիր Է։ 📅");
-      return;
-    }
-
-    if (!time) {
-      error("Ժամը պարտադիր է։ ⏰");
-      return;
-    }
-
-    // if (selectedDate.getMonth() === 4 && selectedDate.getDate() === 29) {
-    //   error("Չես հավատա, բայց ծնունդսա էտ օրը։");
-    //   return;
-    // }
-
-    const [rawH, rawM] = time.split(":");
-    const h = parseInt(rawH ?? "");
-    const m = parseInt(rawM ?? "");
-
-    setSending(true);
-
-    try {
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          title: "Նամակ",
-          name: "Էլեն",
-          date: formatDate(selectedDate),
-          time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
-          reason: sessionStorage.getItem("quiz_reason") || "",
-          cover: coverHistory,
-        },
-        EMAILJS_PUBLIC_KEY,
-      );
-      success("Պայմանավորվեցինք ❤️");
-      onDone(selectedDate, h, m);
-    } catch {
-      error("Շուղարկվեց!");
-    } finally {
-      setSending(false);
-    }
-  };
-
+  
   return (
-    <div className="step-enter">
-      <div className="step-number">ՀԱՐՑ 6 / 6</div>
-      <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
-
-      {selectedDate && (
-        <div className="selected-date-display">
-          <span className="selected-date-icon">📅</span>
-          <span className="selected-date-text">{formatDate(selectedDate)}</span>
-        </div>
-      )}
-
-      <div className="calendar-wrapper">
-        <Calendar selectedDate={selectedDate} onSelect={setSelectedDate} />
-      </div>
-
-      <div className="time-section">
-        <div className="time-label">Երևանի ժամանակով</div>
-        <div className="time-inputs">
-          <input
-            className="time-input"
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          />
+    <>
+      <Music />
+      <div className="step-enter">
+        {/* <div className="step-number">6 / 6</div> */}
+        <div className="card-ornament">✦ ✦ ✦</div>
+        <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
+        <div className="btn-row" style={{ marginTop: 28 }}>
+          <button className="btn primary" onClick={handleNext}>
+            Հետո
+          </button>
         </div>
       </div>
-
-      <div className="btn-row" style={{ marginTop: 28 }}>
-        <button
-          className="btn primary"
-          onClick={handleAccept}
-          disabled={sending}
-        >
-          {sending ? "⏳ Ուղարկվում է..." : "✓ Ուղարկել"}
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
+
+// function Step6({
+//   onDone,
+// }: {
+//   onDone: (date: Date, hour: number, min: number) => void;
+// }) {
+//   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+//   const [time, setTime] = useState("");
+//   const [sending, setSending] = useState(false);
+
+//   const history = JSON.parse(
+//     storage.get("quiz_cover_history") || "[]",
+//   );
+//   const coverHistory = history
+//     .map((item: string, index: number) => `${index + 1}. ${item}`)
+//     .join("\n");
+
+//   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+//   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
+//   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+
+//   const formatDate = (d: Date) => {
+//     const dayIndex = (d.getDay() + 6) % 7;
+//     return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+//   };
+
+//   const handleAccept = async () => {
+//     if (!selectedDate) {
+//       error("Ամսաթիվը պարտադիր Է։ 📅");
+//       return;
+//     }
+
+//     if (!time) {
+//       error("Ժամը պարտադիր է։ ⏰");
+//       return;
+//     }
+
+//     const [rawH, rawM] = time.split(":");
+//     const h = parseInt(rawH ?? "");
+//     const m = parseInt(rawM ?? "");
+
+//     setSending(true);
+
+//     try {
+//       await emailjs.send(
+//         EMAILJS_SERVICE_ID,
+//         EMAILJS_TEMPLATE_ID,
+//         {
+//           title: "Նամակ",
+//           name: "Էլեն",
+//           date: formatDate(selectedDate),
+//           time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+//           reason: storage.get("quiz_reason") || "",
+//           cover: coverHistory,
+//         },
+//         EMAILJS_PUBLIC_KEY,
+//       );
+//       success("Պայմանավորվեցինք ❤️");
+//       onDone(selectedDate, h, m);
+//     } catch {
+//       error("Շուղարկվեց!");
+//     } finally {
+//       setSending(false);
+//     }
+//   };
+
+//   return (
+//     <>
+//       <Music />
+//       <div className="step-enter">
+//         {/* <div className="step-number">6 / 6</div> */}
+//         <div className="card-ornament">✦ ✦ ✦</div>
+//         <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
+
+//         {selectedDate && (
+//           <div className="selected-date-display">
+//             <span className="selected-date-icon">📅</span>
+//             <span className="selected-date-text">
+//               {formatDate(selectedDate)}
+//             </span>
+//           </div>
+//         )}
+
+//         <div className="calendar-wrapper">
+//           <Calendar selectedDate={selectedDate} onSelect={setSelectedDate} />
+//         </div>
+
+//         <div className="time-section">
+//           <div className="time-label">Երևանի ժամանակով</div>
+//           <div className="time-inputs">
+//             <input
+//               className="time-input"
+//               type="time"
+//               value={time}
+//               onChange={(e) => setTime(e.target.value)}
+//             />
+//           </div>
+//         </div>
+
+//         <div className="btn-row" style={{ marginTop: 28 }}>
+//           <button
+//             className="btn primary"
+//             onClick={handleAccept}
+//             disabled={sending}
+//           >
+//             {sending ? "⏳ Ուղարկվում է..." : "✓ Ուղարկել"}
+//           </button>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
 
 function FinalScreen({
   date,
@@ -448,6 +516,7 @@ function FinalScreen({
     const dayIndex = (d.getDay() + 6) % 7;
     return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
   };
+
   return (
     <div className="final-screen">
       {/* <div className="checkmark">☕</div> */}
@@ -478,7 +547,7 @@ export default function Home() {
   const [authChecked, setAuthChecked] = useState(false);
   const [password, setPassword] = useState("");
   const [showHint, setShowHint] = useState(false);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(Number(storage.get("quiz_step")) || 1);
   const [finalData, setFinalData] = useState<{
     date: Date;
     h: number;
@@ -522,12 +591,16 @@ export default function Home() {
       return;
     }
 
-    sessionStorage.setItem("quiz_authenticated", "true");
+    storage.set("quiz_authenticated", "true");
 
     success("Բարև 🖐️​");
 
     setAuthenticated(true);
   };
+
+  useOnTrue(isPart1Correct, () => success("1-ինը ունենք"));
+  useOnTrue(isPart2Correct, () => success("2-րդն էլ ունենք"));
+  useOnTrue(isPart3Correct, () => success("3-րդն էլ ունենք"));
 
   if (!authChecked) {
     return null;
@@ -541,8 +614,8 @@ export default function Home() {
             <div className="card-ornament">✦ ✦ ✦</div>
 
             <h1 className="quiz-title">
-              Որ քեզնից բացի որիշ մարդ չմտնի ներքևի հուշումներով կիմանաս ծածկագիրը ու էն ինչ կտեսնես դա կլինի մեր
-              գաղտնիքը։ 🤫
+              Որ քեզնից բացի ուրիշ մարդ չմտնի ներքևի հուշումներով հավաքի
+              ծածկագիրը ու էն ինչ կտեսնես դա կլինի մեր գաղտնիքը։ 🤫
             </h1>
 
             <p className="quiz-desc">
@@ -626,8 +699,11 @@ export default function Home() {
           <Step4 onNext={() => setStep(5)} />
         ) : step === 5 ? (
           <Step5 onNext={() => setStep(6)} />
+        ) : step === 6 ? (
+          <Step6 onNext={() => setStep(7)} />
         ) : (
-          <Step6 onDone={(d, h, m) => setFinalData({ date: d, h, m })} />
+          <></>
+          // <Step7 onDone={(d, h, m) => setFinalData({ date: d, h, m })} />
         )}
       </div>
     </main>

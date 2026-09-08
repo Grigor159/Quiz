@@ -62,7 +62,9 @@ export default function RootLayout({
         <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body>
-        <ChakraUIProvider>{children}</ChakraUIProvider>
+        <ChakraUIProvider>
+          {children}
+        </ChakraUIProvider>
       </body>
     </html>
   );
