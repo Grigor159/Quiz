@@ -29,10 +29,11 @@ export const APPOINTMENT_OPTIONS = [
   { value: "", label: "Ընտրի..." },
   {
     value: "opinion",
-    label: "🤦‍♂️​ Իմ մասին կարծիք էիր կազմել առանց ճանաչելու",
+    label: "🤦‍♂️​ Քո մասին վատ կարծիք էի կազմել առանց ճանաչելու",
   },
-  { value: "տasteless", label: "🤣​ Անճաշակ էիր" },
-  { value: "ready", label: "👼🏻​​ Պատրաստ չէիր" },
+  { value: "tasteless", label: "🤣​ Անճաշակ էի" },
+  { value: "assistant", label: "🤦‍♀️​​ Էտ նմանակս տենցա,մեռավ ինձ խայտառակ անելով" },
+  { value: "ready", label: "👼🏻​​ Պատրաստ չէի" },
 ];
 
 export const STEPS = [

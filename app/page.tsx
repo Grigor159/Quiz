@@ -142,21 +142,40 @@ function Step1({ onNext }: { onNext: () => void }) {
       <div className="btn-row">
         <button
           className="btn danger-btn"
-          onClick={() =>
-            error("Ասել ես,դրա համար էլ էս տարբերակն եմ ընտրել😏։")
-          }
+          onClick={() => {
+            storage.set("quiz_wish", "Շէ");
+            storage.set("quiz_step", 2);
+            onNext();
+          }}
         >
-          Ոչ
+          Շէ
         </button>
         <button
           className="btn primary"
           onClick={() => {
+            storage.set("quiz_step", 2);
+            storage.set("quiz_wish", "Ըհը");
             success("Էտ անցյալում մնաց,հիմա անցանք պատճառին։");
             onNext();
-            storage.set("quiz_step", 2);
           }}
         >
-          Այո
+          Ըհը
+        </button>
+      </div>
+      <div className="btn-row">
+        <button
+          className="btn primary"
+          onClick={() => {
+            storage.set("quiz_step", 2);
+            storage.set(
+              "quiz_wish",
+              "Չգիտեմ,ես տենց բան չեմ հիշում,հաստատ էն նմանակսա եղել😏",
+            );
+            success("Վայ ես դրա...");
+            onNext();
+          }}
+        >
+          Չգիտեմ,ես տենց բան չեմ հիշում,հաստատ էն նմանակսա եղել😏
         </button>
       </div>
     </div>
@@ -172,17 +191,22 @@ function Step2({ onNext }: { onNext: () => void }) {
       return;
     }
 
-    const label =
-      APPOINTMENT_OPTIONS.find((o) => o.value === selected)?.label || selected;
+    const choosed =
+      APPOINTMENT_OPTIONS.find((o) => o.value === selected) || selected;
+
+    const label = typeof choosed === "string" ? choosed : choosed.label;
+    const value = typeof choosed === "string" ? choosed : choosed.value;
 
     sessionStorage.setItem("quiz_reason", label.split(" ").slice(1).join(" "));
 
     success(
-      label?.includes("Անճաշակ")
+      value?.includes("tasteless")
         ? "Ես էլ,թխի թող գա։🖐️​"
-        : label?.includes("Պատրաստ")
+        : value?.includes("ready")
           ? "Անցանք առաջ։"
-          : "Դժվար չէր կռահելը։😊",
+          : value?.includes("assistant")
+            ? "Առհամարհելով անցնողն էլ ուրեմն դու չես եղել։"
+            : "Դժվար չէր կռահելը։😊",
     );
     setTimeout(() => {
       onNext();
@@ -194,7 +218,7 @@ function Step2({ onNext }: { onNext: () => void }) {
     <div className="step-enter">
       {/* <div className="step-number">2 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">Խի․․․?😏</h1>
+      <h1 className="quiz-title">Բա խի տենց ասեցիր😏։</h1>
 
       <div className="select-wrapper">
         <select
@@ -234,7 +258,7 @@ function Step3({ onNext }: { onNext: () => void }) {
           className="btn danger-btn"
           onClick={() =>
             error(
-              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չէր կարա լիներ😏։ Տակ շտո պտի համաձայնվես, որ անցնենք առաջ։",
+              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չի լինում😏։ Տակ շտո համաձայնվի անցնենք առաջ։",
             )
           }
         >
@@ -264,10 +288,22 @@ function Step4({ onNext }: { onNext: () => void }) {
   const [history, setHistory] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
   const [hasFocused, setHasFocused] = useState(false);
+  const [showContent, setShowContent] = useState(false);
 
-  const coverHistory = history
+  const covered = JSON.parse(storage.get("quiz_cover_history") || "[]") || history;
+
+  const wish = storage.get("quiz_wish") || "";
+  const coverHistory = covered
     .map((item: string, index: number) => `${index + 1}. ${item}`)
     .join("\n");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowContent(true);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (!hasFocused) return;
@@ -298,6 +334,7 @@ function Step4({ onNext }: { onNext: () => void }) {
         EMAILJS_TEMPLATE_ID,
         {
           name: "Էլեն",
+          wish: wish,
           reason: storage.get("quiz_reason") || "",
           cover: coverHistory,
         },
@@ -312,34 +349,45 @@ function Step4({ onNext }: { onNext: () => void }) {
 
   return (
     <div className="step-enter">
-      {/* <div className="step-number">4 / 6</div> */}
-      <div className="card-ornament">✦ ✦ ✦</div>
-      <h1 className="quiz-title">
-        Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
-      </h1>
-      {showHint && (
-        <p className="quiz-desc">
-          Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
-          սարքել եմ😊։
-        </p>
+      {!showContent ? (
+        <div className="clock-wrapper">
+          <img src="/assets/clock.gif" alt="Clock" className="clock-gif" />
+        </div>
+      ) : (
+        <>
+          <div className="card-ornament">✦ ✦ ✦</div>
+
+          <h1 className="quiz-title">
+            Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
+          </h1>
+
+          {showHint && (
+            <p className="quiz-desc">
+              Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
+              սարքել եմ😊։
+            </p>
+          )}
+
+          <textarea
+            className="quiz-textarea"
+            placeholder="..."
+            value={text}
+            onFocus={() => setHasFocused(true)}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+          />
+
+          <div className="btn-row">
+            <button
+              className="btn primary"
+              onClick={handleAccept}
+              disabled={!showHint}
+            >
+              Հետո
+            </button>
+          </div>
+        </>
       )}
-      <textarea
-        className="quiz-textarea"
-        placeholder="..."
-        value={text}
-        onFocus={() => setHasFocused(true)}
-        onChange={(e) => setText(e.target.value)}
-        rows={3}
-      />
-      <div className="btn-row">
-        <button
-          className="btn primary"
-          onClick={handleAccept}
-          disabled={!showHint}
-        >
-          Հետո
-        </button>
-      </div>
     </div>
   );
 }
@@ -373,7 +421,7 @@ function Step6({ onNext }: { onNext: () => void }) {
     onNext();
     storage.set("quiz_step", 7);
   };
-  
+
   return (
     <>
       <Music />
