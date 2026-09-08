@@ -290,7 +290,8 @@ function Step4({ onNext }: { onNext: () => void }) {
   const [hasFocused, setHasFocused] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
-  const covered = JSON.parse(storage.get("quiz_cover_history") || "[]") || history;
+  const covered =
+    JSON.parse(storage.get("quiz_cover_history") || "[]") || history;
 
   const wish = storage.get("quiz_wish") || "";
   const coverHistory = covered
@@ -428,7 +429,33 @@ function Step6({ onNext }: { onNext: () => void }) {
       <div className="step-enter">
         {/* <div className="step-number">6 / 6</div> */}
         <div className="card-ornament">✦ ✦ ✦</div>
-        <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
+        <h1 className="quiz-title">Ինչնա էս ամենի իմաստը</h1>
+
+        <p className="quiz-desc">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Incidunt
+          officiis explicabo mollitia voluptates rerum vel accusantium voluptate
+          at illo adipisci alias ad itaque animi harum deserunt obcaecati quae
+          architecto saepe, ipsum sed dolorum? Rem minus recusandae eaque
+          exercitationem eos! Facere hic aspernatur illum possimus consequuntur
+          consequatur, dolore praesentium. Repellendus quis illo, dicta ad
+          veritatis libero exercitationem incidunt quibusdam ipsam debitis qui
+          ipsum consequuntur laboriosam aliquam commodi, voluptas culpa officia
+          veniam quas est voluptatibus atque nemo ab. Aperiam dignissimos, quis
+          mollitia fugit quidem cum officiis consequatur voluptatibus illum
+          necessitatibus quaerat provident nobis odio eveniet libero ullam amet!
+          Adipisci nihil ut explicabo vero? Aspernatur vero omnis debitis odio
+          velit ipsa aut quas doloribus? Itaque magni iure sequi voluptatibus
+          laboriosam rem saepe, voluptate nemo quasi possimus corporis
+          perspiciatis repellat quisquam, ipsa reprehenderit assumenda cumque
+          laborum officiis dignissimos ullam eaque veniam deserunt! Ex officia
+          corporis iste aperiam asperiores excepturi, quos deserunt minus, error
+          tempore inventore accusantium necessitatibus nihil architecto eum aut
+          quisquam, nulla quod quae! Quo, perferendis quod. Modi saepe maiores
+          minima dolorem voluptates vel nulla cumque, assumenda optio est
+          perferendis architecto dignissimos neque delectus. Odit id inventore
+          rem, voluptas earum ad, quidem commodi dignissimos, fuga possimus
+          beatae sint veritatis in. Ipsa, laboriosam. Amet!
+        </p>
         <div className="btn-row" style={{ marginTop: 28 }}>
           <button className="btn primary" onClick={handleNext}>
             Հետո
