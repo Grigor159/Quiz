@@ -53,6 +53,11 @@ body::before {
   padding: 40px 20px 80px;
 }
 
+input,
+textarea {
+  font-size: 16px !important;
+}
+
 /* ——— Progress bar ——— */
 .progress-bar {
   width: 100%;
