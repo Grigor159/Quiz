@@ -456,7 +456,7 @@ function Step6({ onNext }: { onNext: () => void }) {
           <br />
           <br />
           Համ էլ հիմա սաղ սրտի վրա ենք քցել,որը էտքան էլ ցանկալի չի հատկապես իմ
-          տարիքում😄
+          տարիքում😄:
         </p>
         <div className="btn-row" style={{ marginTop: 28 }}>
           <button className="btn primary" onClick={handleNext}>
