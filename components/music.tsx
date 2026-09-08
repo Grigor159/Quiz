@@ -49,7 +49,7 @@ export default function Music() {
       />
       {needsUnlock ? (
         <button style={styles.button} onClick={start}>
-          ▶ Play music
+          ▶ Play
         </button>
       ) : (
         <button style={styles.button} onClick={togglePlay} aria-label={isPlaying ? "Pause" : "Play"}>
@@ -71,10 +71,10 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "8px 14px",
     borderRadius: 999,
     border: "1px solid #4c4a44",
-    background: "#1b1b1f",
-    color: "#f2f0ea",
+    background: "#e8b98a",
+    color: "black",
     fontFamily: "system-ui, sans-serif",
-    fontSize: 13,
+    fontSize: 16,
     cursor: "pointer",
     boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
   },
