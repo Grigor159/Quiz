@@ -1,6 +1,6 @@
-# ☕ Date Quiz — Мenк surj xmenk?
+# Date Quiz
 
-A playful Armenian quiz app to settle an unfulfilled coffee date.
+A playful Armenian quiz app to settle an unfulfilled date.
 
 ---
 

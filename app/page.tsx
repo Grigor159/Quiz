@@ -4,7 +4,7 @@ import { error, success } from "@/components/ui/alerts";
 import emailjs from "@emailjs/browser";
 import {
   MONTHS,
-  // WEEKDAYS_SHORT,
+  WEEKDAYS_SHORT,
   WEEKDAYS_FULL,
   APPOINTMENT_OPTIONS,
   STEPS,
@@ -14,90 +14,90 @@ import { storage } from "@/lib/browser/storage";
 import Music from "@/components/music";
 
 // ─── Calendar ───
-// function Calendar({
-//   selectedDate,
-//   onSelect,
-// }: {
-//   selectedDate: Date | null;
-//   onSelect: (d: Date) => void;
-// }) {
-//   const today = new Date();
-//   today.setHours(0, 0, 0, 0);
-//   const [viewYear, setViewYear] = useState(today.getFullYear());
-//   const [viewMonth, setViewMonth] = useState(today.getMonth());
+function Calendar({
+  selectedDate,
+  onSelect,
+}: {
+  selectedDate: Date | null;
+  onSelect: (d: Date) => void;
+}) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const [viewYear, setViewYear] = useState(today.getFullYear());
+  const [viewMonth, setViewMonth] = useState(today.getMonth());
 
-//   const firstDay = new Date(viewYear, viewMonth, 1).getDay();
-//   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-//   const startOffset = firstDay === 0 ? 6 : firstDay - 1;
-//   const cells: (number | null)[] = [
-//     ...Array(startOffset).fill(null),
-//     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
-//   ];
-//   while (cells.length % 7 !== 0) cells.push(null);
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+  const startOffset = firstDay === 0 ? 6 : firstDay - 1;
+  const cells: (number | null)[] = [
+    ...Array(startOffset).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ];
+  while (cells.length % 7 !== 0) cells.push(null);
 
-//   const prevMonth = () => {
-//     if (viewMonth === 0) {
-//       setViewMonth(11);
-//       setViewYear((y) => y - 1);
-//     } else setViewMonth((m) => m - 1);
-//   };
-//   const nextMonth = () => {
-//     if (viewMonth === 11) {
-//       setViewMonth(0);
-//       setViewYear((y) => y + 1);
-//     } else setViewMonth((m) => m + 1);
-//   };
+  const prevMonth = () => {
+    if (viewMonth === 0) {
+      setViewMonth(11);
+      setViewYear((y) => y - 1);
+    } else setViewMonth((m) => m - 1);
+  };
+  const nextMonth = () => {
+    if (viewMonth === 11) {
+      setViewMonth(0);
+      setViewYear((y) => y + 1);
+    } else setViewMonth((m) => m + 1);
+  };
 
-//   return (
-//     <div className="cal-container">
-//       <div className="cal-header">
-//         <button className="cal-nav-btn" onClick={prevMonth}>
-//           ‹
-//         </button>
-//         <div className="cal-month-title">
-//           {MONTHS[viewMonth]} {viewYear}
-//         </div>
-//         <button className="cal-nav-btn" onClick={nextMonth}>
-//           ›
-//         </button>
-//       </div>
-//       <div className="cal-days-header">
-//         {WEEKDAYS_SHORT.map((d) => (
-//           <div key={d} className="cal-day-label">
-//             {d}
-//           </div>
-//         ))}
-//       </div>
-//       <div className="cal-days-grid">
-//         {cells.map((day, i) => {
-//           if (!day)
-//             return <div key={`e-${i}`} className="cal-day-cell empty" />;
-//           const cellDate = new Date(viewYear, viewMonth, day);
-//           cellDate.setHours(0, 0, 0, 0);
-//           const isPast = cellDate < today;
-//           const isToday = cellDate.getTime() === today.getTime();
-//           const isSelected =
-//             selectedDate && cellDate.getTime() === selectedDate.getTime();
-//           let cls = "cal-day-cell";
-//           if (isPast) cls += " past";
-//           else if (isSelected) cls += " selected";
-//           else if (isToday) cls += " today";
-//           return (
-//             <div
-//               key={day}
-//               className={cls}
-//               onClick={() =>
-//                 !isPast && onSelect(new Date(viewYear, viewMonth, day))
-//               }
-//             >
-//               {day}
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// }
+  return (
+    <div className="cal-container">
+      <div className="cal-header">
+        <button className="cal-nav-btn" onClick={prevMonth}>
+          ‹
+        </button>
+        <div className="cal-month-title">
+          {MONTHS[viewMonth]} {viewYear}
+        </div>
+        <button className="cal-nav-btn" onClick={nextMonth}>
+          ›
+        </button>
+      </div>
+      <div className="cal-days-header">
+        {WEEKDAYS_SHORT.map((d) => (
+          <div key={d} className="cal-day-label">
+            {d}
+          </div>
+        ))}
+      </div>
+      <div className="cal-days-grid">
+        {cells.map((day, i) => {
+          if (!day)
+            return <div key={`e-${i}`} className="cal-day-cell empty" />;
+          const cellDate = new Date(viewYear, viewMonth, day);
+          cellDate.setHours(0, 0, 0, 0);
+          const isPast = cellDate < today;
+          const isToday = cellDate.getTime() === today.getTime();
+          const isSelected =
+            selectedDate && cellDate.getTime() === selectedDate.getTime();
+          let cls = "cal-day-cell";
+          if (isPast) cls += " past";
+          else if (isSelected) cls += " selected";
+          else if (isToday) cls += " today";
+          return (
+            <div
+              key={day}
+              className={cls}
+              onClick={() =>
+                !isPast && onSelect(new Date(viewYear, viewMonth, day))
+              }
+            >
+              {day}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 function ProgressBar({ current }: { current: number }) {
   return (
@@ -443,20 +443,20 @@ function Step6({ onNext }: { onNext: () => void }) {
           նենց չի, որ շատ բանա պետք (սկզբում մենակս էլ գլուխ կհանեմ):
           <br />
           Իրականում մի հայացքը ու մի քանի խոսքը բավականա, հատկապես, որ մենք հենց
-          տենց էինք սկսել, ուղղակի շեղվեցինք մի պահից ու գնացինք ուրիշ ճանապարհով
-          ՝ անտեսելու, տենց կարծում էինք հեշտա:
+          տենց էինք սկսել, ուղղակի շեղվեցինք մի պահից ու գնացինք ուրիշ
+          ճանապարհով ՝ անտեսելու, տենց կարծում էինք հեշտա:
           <br />
-          Ես էլի համոզվեցի, որ մի բան կա հեշտ ու դա լավատես լինելնա ու բեր տենց լինենք էս
-          հարցում, քանի որ ժամանակի ճնշման տակ առնվազն չենք կոտրվե ու կորցրե ու
-          ես հստակ գիտեմ ինչենք ուզում մենք արդեն:
+          Ես էլի համոզվեցի, որ մի բան կա հեշտ ու դա լավատես լինելնա ու բեր տենց
+          լինենք էս հարցում, քանի որ ժամանակի ճնշման տակ առնվազն չենք կոտրվե ու
+          կորցրե ու ես հստակ գիտեմ ինչ ենք ուզում մենք արդեն:
           <br />
           <br />
           Արի ուղղակի մեր հայացքներին թողենք նկատեն միմյանց ներկայությունը ու
           հավատա իրանք գիտեն ինչ պետքա անեն:
           <br />
           <br />
-          Համ էլ հիմա սաղ սրտի վրա ենք քցել, որը էտքան էլ ցանկալի չի հատկապես իմ
-          տարիքում😄:
+          Համ էլ հիմա սաղ սրտի վրա ենք գցել, որը էտքան էլ ցանկալի չի ՝ հատկապես
+          իմ տարիքում😄:
         </p>
         <div className="btn-row" style={{ marginTop: 28 }}>
           <button className="btn primary" onClick={handleNext}>
@@ -468,126 +468,138 @@ function Step6({ onNext }: { onNext: () => void }) {
   );
 }
 
-// function Step6({
-//   onDone,
-// }: {
-//   onDone: (date: Date, hour: number, min: number) => void;
-// }) {
-//   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-//   const [time, setTime] = useState("");
-//   const [sending, setSending] = useState(false);
+function Step7({
+  onDone,
+}: {
+  onDone: (date: Date, hour: number, min: number, place: string) => void;
+}) {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [time, setTime] = useState("");
+  const [place, setPlace] = useState("");
+  const [sending, setSending] = useState(false);
 
-//   const history = JSON.parse(
-//     storage.get("quiz_cover_history") || "[]",
-//   );
-//   const coverHistory = history
-//     .map((item: string, index: number) => `${index + 1}. ${item}`)
-//     .join("\n");
+  const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+  const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_ONE!;
+  const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
 
-//   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
-//   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!;
-//   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+  const formatDate = (d: Date) => {
+    const dayIndex = (d.getDay() + 6) % 7;
+    return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+  };
 
-//   const formatDate = (d: Date) => {
-//     const dayIndex = (d.getDay() + 6) % 7;
-//     return `${WEEKDAYS_FULL[dayIndex]}, ${d.getDate()} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
-//   };
+  const handleAccept = async () => {
+    if (!selectedDate) {
+      error("Ամսաթիվը պարտադիր Է։ 📅");
+      return;
+    }
 
-//   const handleAccept = async () => {
-//     if (!selectedDate) {
-//       error("Ամսաթիվը պարտադիր Է։ 📅");
-//       return;
-//     }
+    if (!time) {
+      error("Ժամը պարտադիր է։ ⏰");
+      return;
+    }
 
-//     if (!time) {
-//       error("Ժամը պարտադիր է։ ⏰");
-//       return;
-//     }
+    if (!place) {
+      error("Տեղը պարտադիր է։ 📍");
+      return;
+    }
 
-//     const [rawH, rawM] = time.split(":");
-//     const h = parseInt(rawH ?? "");
-//     const m = parseInt(rawM ?? "");
+    const [rawH, rawM] = time.split(":");
+    const h = parseInt(rawH ?? "");
+    const m = parseInt(rawM ?? "");
 
-//     setSending(true);
+    setSending(true);
 
-//     try {
-//       await emailjs.send(
-//         EMAILJS_SERVICE_ID,
-//         EMAILJS_TEMPLATE_ID,
-//         {
-//           title: "Նամակ",
-//           name: "Էլեն",
-//           date: formatDate(selectedDate),
-//           time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
-//           reason: storage.get("quiz_reason") || "",
-//           cover: coverHistory,
-//         },
-//         EMAILJS_PUBLIC_KEY,
-//       );
-//       success("Պայմանավորվեցինք ❤️");
-//       onDone(selectedDate, h, m);
-//     } catch {
-//       error("Շուղարկվեց!");
-//     } finally {
-//       setSending(false);
-//     }
-//   };
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: "Էլեն",
+          date: formatDate(selectedDate),
+          time: `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+          place: place,
+        },
+        EMAILJS_PUBLIC_KEY,
+      );
+      success("Պայմանավորվեցինք ❤️");
+      onDone(selectedDate, h, m, place);
+    } catch {
+      error("Շուղարկվեց!");
+    } finally {
+      setSending(false);
+    }
+  };
 
-//   return (
-//     <>
-//       <Music />
-//       <div className="step-enter">
-//         {/* <div className="step-number">6 / 6</div> */}
-//         <div className="card-ornament">✦ ✦ ✦</div>
-//         <h1 className="quiz-title">Քեզ մնումա մենակ օր ու ժամ ընտրես 😊</h1>
+  return (
+    <div className="step-enter">
+      {/* <div className="step-number">6 / 6</div> */}
+      <div className="card-ornament">✦ ✦ ✦</div>
+      <p className="quiz-desc" style={{ textAlign: "center" }}>
+        Արի ընդունենք, որ իրականում մի անկեղծ զրույցը կարա մոռացնել տա ցանկացած
+        նեղվածություն կամ տարակարծություն ու մեզ հենց դայա պակասում։ Հետևաբար,
+        ակնկալում եմ պատասխան։
+      </p>
 
-//         {selectedDate && (
-//           <div className="selected-date-display">
-//             <span className="selected-date-icon">📅</span>
-//             <span className="selected-date-text">
-//               {formatDate(selectedDate)}
-//             </span>
-//           </div>
-//         )}
+      <h1 className="quiz-title">Դե բեր օր ու ժամ ընտրի😊։</h1>
 
-//         <div className="calendar-wrapper">
-//           <Calendar selectedDate={selectedDate} onSelect={setSelectedDate} />
-//         </div>
+      {selectedDate && (
+        <div className="selected-date-display">
+          <span className="selected-date-icon">📅</span>
+          <span className="selected-date-text">{formatDate(selectedDate)}</span>
+        </div>
+      )}
 
-//         <div className="time-section">
-//           <div className="time-label">Երևանի ժամանակով</div>
-//           <div className="time-inputs">
-//             <input
-//               className="time-input"
-//               type="time"
-//               value={time}
-//               onChange={(e) => setTime(e.target.value)}
-//             />
-//           </div>
-//         </div>
+      <div className="calendar-wrapper">
+        <Calendar selectedDate={selectedDate} onSelect={setSelectedDate} />
+      </div>
 
-//         <div className="btn-row" style={{ marginTop: 28 }}>
-//           <button
-//             className="btn primary"
-//             onClick={handleAccept}
-//             disabled={sending}
-//           >
-//             {sending ? "⏳ Ուղարկվում է..." : "✓ Ուղարկել"}
-//           </button>
-//         </div>
-//       </div>
-//     </>
-//   );
-// }
+      <div className="time-section">
+        <div className="time-label">ժամ</div>
+        <div className="time-inputs">
+          <input
+            className="time-input"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+          />
+        </div>
+      </div>
+      <div className="time-section">
+        <div className="time-label">Որտեղ</div>
+        <div className="time-inputs">
+          <textarea
+            className="quiz-textarea"
+            placeholder="..."
+            value={place}
+            onChange={(e) => setPlace(e.target.value)}
+            rows={3}
+          />
+        </div>
+      </div>
+
+      <div className="btn-row" style={{ marginTop: 28 }}>
+        <button
+          className="btn primary"
+          onClick={handleAccept}
+          disabled={sending}
+        >
+          {sending ? "⏳ Ուղարկվում է..." : "✓ Ուղարկել"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function FinalScreen({
   date,
   hour,
   min,
+  place,
 }: {
   date: Date;
   hour: number;
   min: number;
+  place: string;
 }) {
   const formatDate = (d: Date) => {
     const dayIndex = (d.getDay() + 6) % 7;
@@ -596,7 +608,6 @@ function FinalScreen({
 
   return (
     <div className="final-screen">
-      {/* <div className="checkmark">☕</div> */}
       <h1 className="final-title">Ընտիր ❤️</h1>
       <div className="final-date-confirmed">
         <div className="confirmed-row">
@@ -606,10 +617,18 @@ function FinalScreen({
         <div className="confirmed-row">
           <span>Ժամը</span>
           <span>
-            ~ {String(hour).padStart(2, "0")}:{String(min).padStart(2, "0")}
+            {String(hour).padStart(2, "0")}:{String(min).padStart(2, "0")}
           </span>
         </div>
+        <div className="confirmed-row">
+          <span>Որտեղ</span>
+          <span>{place}</span>
+        </div>
       </div>
+
+      <p className="quiz-desc" style={{ textAlign: "center" }}>
+        Պատասխանը եկավ ինձ, դու էլ էջը սքրին արա, որ չմոռանաս😊։
+      </p>
     </div>
   );
 }
@@ -629,6 +648,7 @@ export default function Home() {
     date: Date;
     h: number;
     m: number;
+    p: string;
   } | null>(null);
 
   useEffect(() => {
@@ -765,6 +785,7 @@ export default function Home() {
             date={finalData.date}
             hour={finalData.h}
             min={finalData.m}
+            place={finalData.p}
           />
         ) : step === 1 ? (
           <Step1 onNext={() => setStep(2)} />
@@ -779,8 +800,7 @@ export default function Home() {
         ) : step === 6 ? (
           <Step6 onNext={() => setStep(7)} />
         ) : (
-          <></>
-          // <Step7 onDone={(d, h, m) => setFinalData({ date: d, h, m })} />
+          <Step7 onDone={(d, h, m, p) => setFinalData({ date: d, h, m, p })} />
         )}
       </div>
     </main>
