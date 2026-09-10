@@ -766,7 +766,7 @@ export default function Home() {
 
   useEffect(() => {
     const isAuthenticated =
-      sessionStorage.getItem("quiz_authenticated") === "true";
+      storage.get("quiz_authenticated") === "true";
 
     setAuthenticated(isAuthenticated);
     setAuthChecked(true);
