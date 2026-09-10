@@ -752,9 +752,9 @@ const PASSWORD_PART_2 = process.env.NEXT_PUBLIC_PASS_2!;
 const PASSWORD_PART_3 = process.env.NEXT_PUBLIC_PASS_3!;
 
 export default function Home() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
-  const [password, setPassword] = useState("");
+  // const [authenticated, setAuthenticated] = useState(false);
+  // const [authChecked, setAuthChecked] = useState(false);
+  // const [password, setPassword] = useState("");
   const [showHint, setShowHint] = useState(true);
   const [step, setStep] = useState(Number(storage.get("quiz_step")) || 1);
   const [finalData, setFinalData] = useState<{
@@ -764,136 +764,136 @@ export default function Home() {
     p: string;
   } | null>(null);
 
-  useEffect(() => {
-    const isAuthenticated =
-      storage.get("quiz_authenticated") === "true";
+  // useEffect(() => {
+  //   const isAuthenticated =
+  //     storage.get("quiz_authenticated") === "true";
 
-    setAuthenticated(isAuthenticated);
-    setAuthChecked(true);
-  }, []);
+  //   setAuthenticated(isAuthenticated);
+  //   setAuthChecked(true);
+  // }, []);
 
-  const isPart1Correct =
-    password.slice(0, PASSWORD_PART_1.length) === PASSWORD_PART_1;
+  // const isPart1Correct =
+  //   password.slice(0, PASSWORD_PART_1.length) === PASSWORD_PART_1;
 
-  const isPart2Correct =
-    password.slice(
-      PASSWORD_PART_1.length,
-      PASSWORD_PART_1.length + PASSWORD_PART_2.length,
-    ) === PASSWORD_PART_2;
+  // const isPart2Correct =
+  //   password.slice(
+  //     PASSWORD_PART_1.length,
+  //     PASSWORD_PART_1.length + PASSWORD_PART_2.length,
+  //   ) === PASSWORD_PART_2;
 
-  const isPart3Correct =
-    password.slice(
-      PASSWORD_PART_1.length + PASSWORD_PART_2.length,
-      PASSWORD_PART_1.length + PASSWORD_PART_2.length + PASSWORD_PART_3.length,
-    ) === PASSWORD_PART_3;
+  // const isPart3Correct =
+  //   password.slice(
+  //     PASSWORD_PART_1.length + PASSWORD_PART_2.length,
+  //     PASSWORD_PART_1.length + PASSWORD_PART_2.length + PASSWORD_PART_3.length,
+  //   ) === PASSWORD_PART_3;
 
-  const isPasswordCorrect =
-    password === `${PASSWORD_PART_1}${PASSWORD_PART_2}${PASSWORD_PART_3}`;
+  // const isPasswordCorrect =
+  //   password === `${PASSWORD_PART_1}${PASSWORD_PART_2}${PASSWORD_PART_3}`;
 
-  const handleLogin = () => {
-    if (!password.trim()) {
-      error("Հետ արի, առանց ծածկագրի չես անցնի։ 😏");
-      return;
-    }
+  // const handleLogin = () => {
+  //   if (!password.trim()) {
+  //     error("Հետ արի, առանց ծածկագրի չես անցնի։ 😏");
+  //     return;
+  //   }
 
-    if (!isPasswordCorrect) {
-      error("Չէէէ, մի բան էն շես անում։ 😏");
-      return;
-    }
+  //   if (!isPasswordCorrect) {
+  //     error("Չէէէ, մի բան էն շես անում։ 😏");
+  //     return;
+  //   }
 
-    storage.set("quiz_authenticated", "true");
+  //   storage.set("quiz_authenticated", "true");
 
-    success("Բարև 🖐️​");
+  //   success("Բարև 🖐️​");
 
-    setAuthenticated(true);
-  };
+  //   setAuthenticated(true);
+  // };
 
-  useOnTrue(isPart1Correct, () => success("1-ինը ունենք"));
-  useOnTrue(isPart2Correct, () => success("2-րդն էլ ունենք"));
-  useOnTrue(isPart3Correct, () => success("3-րդն էլ ունենք"));
+  // useOnTrue(isPart1Correct, () => success("1-ինը ունենք"));
+  // useOnTrue(isPart2Correct, () => success("2-րդն էլ ունենք"));
+  // useOnTrue(isPart3Correct, () => success("3-րդն էլ ունենք"));
 
-  if (!authChecked) {
-    return null;
-  }
+  // if (!authChecked) {
+  //   return null;
+  // }
 
-  if (!authenticated) {
-    return (
-      <main className="quiz-wrapper">
-        <div className="quiz-card">
-          <div className="step-enter">
-            <div className="card-ornament">✦ ✦ ✦</div>
+  // if (!authenticated) {
+  //   return (
+  //     <main className="quiz-wrapper">
+  //       <div className="quiz-card">
+  //         <div className="step-enter">
+  //           <div className="card-ornament">✦ ✦ ✦</div>
 
-            <h1 className="quiz-title">
-              Որ քեզնից բացի ուրիշ մարդ չմտնի ներքևի հուշումներով հավաքի
-              ծածկագիրը ու էն ինչ կտեսնես դա կլինի մեր գաղտնիքը։ 🤫
-            </h1>
+  //           <h1 className="quiz-title">
+  //             Որ քեզնից բացի ուրիշ մարդ չմտնի ներքևի հուշումներով հավաքի
+  //             ծածկագիրը ու էն ինչ կտեսնես դա կլինի մեր գաղտնիքը։ 🤫
+  //           </h1>
 
-            <p className="quiz-desc">
-              1. մեր առաջին հանդիպման օրը{" "}
-              {isPart1Correct && <span className="password-check">✓</span>}
-            </p>
+  //           <p className="quiz-desc">
+  //             1. մեր առաջին հանդիպման օրը{" "}
+  //             {isPart1Correct && <span className="password-check">✓</span>}
+  //           </p>
 
-            <p className="quiz-desc">
-              2. ծննդյանդ օր ամիս տարի{" "}
-              {isPart2Correct && <span className="password-check">✓</span>}
-            </p>
+  //           <p className="quiz-desc">
+  //             2. ծննդյանդ օր ամիս տարի{" "}
+  //             {isPart2Correct && <span className="password-check">✓</span>}
+  //           </p>
 
-            <p className="quiz-desc">
-              3. քանի անգամ ենք խոսել իրար հետ{" "}
-              {isPart3Correct && <span className="password-check">✓</span>}
-            </p>
+  //           <p className="quiz-desc">
+  //             3. քանի անգամ ենք խոսել իրար հետ{" "}
+  //             {isPart3Correct && <span className="password-check">✓</span>}
+  //           </p>
 
-            <p className="quiz-desc">
-              Մտածի մի քիչ ... եթե ինչ 1-ի մասով հուշում ունես։ 🙄
-            </p>
+  //           <p className="quiz-desc">
+  //             Մտածի մի քիչ ... եթե ինչ 1-ի մասով հուշում ունես։ 🙄
+  //           </p>
 
-            {showHint && (
-              <div className="alert info">
-                <span className="alert-icon">💡</span>
+  //           {showHint && (
+  //             <div className="alert info">
+  //               <span className="alert-icon">💡</span>
 
-                <span>
-                  1. գրի մենակ օրը (ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️)
-                  <br />
-                  2. առանց պռաբելների ու նշանների, 05112005 օրինակ
-                  <br />
-                  3. Էս օրը չհաշված
-                </span>
-              </div>
-            )}
+  //               <span>
+  //                 1. գրի մենակ օրը (ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️)
+  //                 <br />
+  //                 2. առանց պռաբելների ու նշանների, 05112005 օրինակ
+  //                 <br />
+  //                 3. Էս օրը չհաշված
+  //               </span>
+  //             </div>
+  //           )}
 
-            <input
-              className="quiz-textarea"
-              type="password"
-              inputMode="numeric"
-              placeholder="Գաղտնաբառը..."
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleLogin();
-                }
-              }}
-              style={{
-                minHeight: 0,
-                height: 52,
-                resize: "none",
-              }}
-            />
+  //           <input
+  //             className="quiz-textarea"
+  //             type="password"
+  //             inputMode="numeric"
+  //             placeholder="Գաղտնաբառը..."
+  //             value={password}
+  //             onChange={(e) => setPassword(e.target.value)}
+  //             onKeyDown={(e) => {
+  //               if (e.key === "Enter") {
+  //                 handleLogin();
+  //               }
+  //             }}
+  //             style={{
+  //               minHeight: 0,
+  //               height: 52,
+  //               resize: "none",
+  //             }}
+  //           />
 
-            <div className="btn-row">
-              <button className="btn" onClick={() => setShowHint((h) => !h)}>
-                {showHint ? "✖️ Լավ, հերիք ա հուշեմ 😊" : "💡 Մի հատ հուշում"}
-              </button>
+  //           <div className="btn-row">
+  //             <button className="btn" onClick={() => setShowHint((h) => !h)}>
+  //               {showHint ? "✖️ Լավ, հերիք ա հուշեմ 😊" : "💡 Մի հատ հուշում"}
+  //             </button>
 
-              <button className="btn primary" onClick={handleLogin}>
-                Մտնել
-              </button>
-            </div>
-          </div>
-        </div>
-      </main>
-    );
-  }
+  //             <button className="btn primary" onClick={handleLogin}>
+  //               Մտնել
+  //             </button>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </main>
+  //   );
+  // }
 
   return (
     <main className="quiz-wrapper">
