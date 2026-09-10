@@ -279,6 +279,120 @@ function Step3({ onNext }: { onNext: () => void }) {
   );
 }
 
+// function Step4({ onNext }: { onNext: () => void }) {
+//   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
+//   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_TWO!;
+//   const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!;
+
+//   const [text, setText] = useState("");
+//   const [history, setHistory] = useState<string[]>([]);
+//   const [showHint, setShowHint] = useState(false);
+//   const [hasFocused, setHasFocused] = useState(false);
+//   const [showContent, setShowContent] = useState(false);
+
+//   const covered =
+//     JSON.parse(storage.get("quiz_cover_history") || "[]") || history;
+
+//   const wish = storage.get("quiz_wish") || "";
+//   const coverHistory = covered
+//     .map((item: string, index: number) => `${index + 1}. ${item}`)
+//     .join("\n");
+
+//   useEffect(() => {
+//     const timer = setTimeout(() => {
+//       setShowContent(true);
+//     }, 2000);
+
+//     return () => clearTimeout(timer);
+//   }, []);
+
+//   useEffect(() => {
+//     if (!hasFocused) return;
+
+//     const timer = setTimeout(() => {
+//       setShowHint(true);
+//     }, 7000);
+
+//     return () => clearTimeout(timer);
+//   }, [hasFocused]);
+
+//   useEffect(() => {
+//     if (!text.trim()) return;
+//     const timer = setTimeout(() => {
+//       setHistory((prev) => {
+//         const updated = [...prev, text];
+//         storage.set("quiz_cover_history", JSON.stringify(updated));
+//         return updated;
+//       });
+//     }, 700);
+//     return () => clearTimeout(timer);
+//   }, [text]);
+
+//   const handleAccept = async () => {
+//     try {
+//       await emailjs.send(
+//         EMAILJS_SERVICE_ID,
+//         EMAILJS_TEMPLATE_ID,
+//         {
+//           name: "Էլեն",
+//           wish: wish,
+//           reason: storage.get("quiz_reason") || "",
+//           cover: coverHistory,
+//         },
+//         EMAILJS_PUBLIC_KEY,
+//       );
+//       onNext();
+//       storage.set("quiz_step", 5);
+//     } catch {
+//       console.log("Շուղարկվեց!");
+//     }
+//   };
+
+//   return (
+//     <div className="step-enter">
+//       {!showContent ? (
+//         <div className="clock-wrapper">
+//           <img src="/assets/clock.gif" alt="Clock" className="clock-gif" />
+//         </div>
+//       ) : (
+//         <>
+//           <div className="card-ornament">✦ ✦ ✦</div>
+
+//           <h1 className="quiz-title">
+//             Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
+//           </h1>
+
+//           {showHint && (
+//             <p className="quiz-desc">
+//               Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
+//               սարքել եմ😊։
+//             </p>
+//           )}
+
+//           <textarea
+//             className="quiz-textarea"
+//             placeholder="..."
+//             value={text}
+//             onFocus={() => setHasFocused(true)}
+//             onChange={(e) => setText(e.target.value)}
+//             rows={3}
+//           />
+
+//           <div className="btn-row">
+//             <button
+//               className="btn primary"
+//               onClick={handleAccept}
+//               disabled={!showHint}
+//             >
+//               Հետո
+//             </button>
+//           </div>
+//         </>
+//       )}
+//     </div>
+//   );
+// }
+
 function Step4({ onNext }: { onNext: () => void }) {
   const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!;
   const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_TWO!;
@@ -287,7 +401,6 @@ function Step4({ onNext }: { onNext: () => void }) {
   const [text, setText] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const [showHint, setShowHint] = useState(false);
-  const [hasFocused, setHasFocused] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   const covered =
@@ -307,17 +420,16 @@ function Step4({ onNext }: { onNext: () => void }) {
   }, []);
 
   useEffect(() => {
-    if (!hasFocused) return;
-
     const timer = setTimeout(() => {
       setShowHint(true);
     }, 7000);
 
     return () => clearTimeout(timer);
-  }, [hasFocused]);
+  }, []);
 
   useEffect(() => {
     if (!text.trim()) return;
+
     const timer = setTimeout(() => {
       setHistory((prev) => {
         const updated = [...prev, text];
@@ -325,6 +437,7 @@ function Step4({ onNext }: { onNext: () => void }) {
         return updated;
       });
     }, 700);
+
     return () => clearTimeout(timer);
   }, [text]);
 
@@ -341,6 +454,7 @@ function Step4({ onNext }: { onNext: () => void }) {
         },
         EMAILJS_PUBLIC_KEY,
       );
+
       onNext();
       storage.set("quiz_step", 5);
     } catch {
@@ -373,7 +487,6 @@ function Step4({ onNext }: { onNext: () => void }) {
             className="quiz-textarea"
             placeholder="..."
             value={text}
-            onFocus={() => setHasFocused(true)}
             onChange={(e) => setText(e.target.value)}
             rows={3}
           />
@@ -642,7 +755,7 @@ export default function Home() {
   const [authenticated, setAuthenticated] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
   const [password, setPassword] = useState("");
-  const [showHint, setShowHint] = useState(false);
+  const [showHint, setShowHint] = useState(true);
   const [step, setStep] = useState(Number(storage.get("quiz_step")) || 1);
   const [finalData, setFinalData] = useState<{
     date: Date;
@@ -721,7 +834,7 @@ export default function Home() {
             </p>
 
             <p className="quiz-desc">
-              2. ծննդյանդ օր ամիս տարի {" "}
+              2. ծննդյանդ օր ամիս տարի{" "}
               {isPart2Correct && <span className="password-check">✓</span>}
             </p>
 
@@ -738,13 +851,13 @@ export default function Home() {
               <div className="alert info">
                 <span className="alert-icon">💡</span>
 
-                <span> 
+                <span>
                   1. գրի մենակ օրը (ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️)
-                  <br/>
+                  <br />
                   2. առանց պռաբելների ու նշանների, 05112005 օրինակ
-                  <br/>
+                  <br />
                   3. Էս օրը չհաշված
-                  </span>
+                </span>
               </div>
             )}
 
