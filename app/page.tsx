@@ -721,7 +721,7 @@ export default function Home() {
             </p>
 
             <p className="quiz-desc">
-              2. ծննդյանդ օր ամիս տարի{" "}
+              2. ծննդյանդ օր ամիս տարի {" "}
               {isPart2Correct && <span className="password-check">✓</span>}
             </p>
 
@@ -738,7 +738,13 @@ export default function Home() {
               <div className="alert info">
                 <span className="alert-icon">💡</span>
 
-                <span>Հուշում՝ ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️</span>
+                <span> 
+                  1. գրի մենակ օրը (ես 2 անգամ խառնել եմ էտ օրվա անունը։🤦‍♂️)
+                  <br/>
+                  2. առանց պռաբելների ու նշանների, 05112005 օրինակ
+                  <br/>
+                  3. Էս օրը չհաշված
+                  </span>
               </div>
             )}
 
