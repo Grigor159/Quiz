@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ChakraUIProvider } from "@/providers/chakraProvider";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -60,6 +61,7 @@ export default function RootLayout({
       <body>
         <ChakraUIProvider>
           {children}
+          <Analytics />
         </ChakraUIProvider>
       </body>
     </html>
