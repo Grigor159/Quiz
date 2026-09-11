@@ -256,11 +256,14 @@ function Step3({ onNext }: { onNext: () => void }) {
       <div className="btn-row">
         <button
           className="btn danger-btn"
-          onClick={() =>
-            error(
-              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չի լինում😏։ Տակ շտո համաձայնվի անցնենք առաջ։",
-            )
-          }
+          onClick={() => {
+            success(
+              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չի լինում😏։ Տակ շտո անցաենք առաջ։",
+            );
+            onNext();
+            storage.set("quiz_analyze", "Ոչ");
+            storage.set("quiz_step", 4);
+          }}
         >
           Ոչ
         </button>
@@ -270,6 +273,7 @@ function Step3({ onNext }: { onNext: () => void }) {
             success("ԸՀԸԸԸԸ՛");
             onNext();
             storage.set("quiz_step", 4);
+            storage.set("quiz_analyze", "Այո");
           }}
         >
           Այո
@@ -400,7 +404,7 @@ function Step4({ onNext }: { onNext: () => void }) {
 
   const [text, setText] = useState("");
   const [history, setHistory] = useState<string[]>([]);
-  const [showHint, setShowHint] = useState(false);
+  // const [showHint, setShowHint] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
   const covered =
@@ -419,13 +423,13 @@ function Step4({ onNext }: { onNext: () => void }) {
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowHint(true);
-    }, 7000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowHint(true);
+  //   }, 7000);
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
     if (!text.trim()) return;
@@ -450,6 +454,7 @@ function Step4({ onNext }: { onNext: () => void }) {
           name: "Էլեն",
           wish: wish,
           reason: storage.get("quiz_reason") || "",
+          analyze: storage.get("quiz_analyze") || "",
           cover: coverHistory,
         },
         EMAILJS_PUBLIC_KEY,
@@ -473,15 +478,19 @@ function Step4({ onNext }: { onNext: () => void }) {
           <div className="card-ornament">✦ ✦ ✦</div>
 
           <h1 className="quiz-title">
-            Ժամանակը հետ տարանք ու տեղ կա մտքերը նորից արտահայտելու․․․
+            Ժամանակը հետ տարանք ու տեղ կա նոր մտքեր արտահայտելու․․․
           </h1>
 
-          {showHint && (
+          {/* {showHint && (
             <p className="quiz-desc">
               Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
               սարքել եմ😊։
             </p>
-          )}
+          )} */}
+          <p className="quiz-desc">
+            Ստեղ,որ պատասխան չնշես էլ առաջ անցնել կլինի,բայցցցցց էտքան տանջվել
+            սարքել եմ😊։
+          </p>
 
           <textarea
             className="quiz-textarea"
@@ -495,7 +504,7 @@ function Step4({ onNext }: { onNext: () => void }) {
             <button
               className="btn primary"
               onClick={handleAccept}
-              disabled={!showHint}
+              // disabled={!showHint}
             >
               Հետո
             </button>
@@ -747,15 +756,15 @@ function FinalScreen({
 }
 
 // ─── Main ───
-const PASSWORD_PART_1 = process.env.NEXT_PUBLIC_PASS_1!;
-const PASSWORD_PART_2 = process.env.NEXT_PUBLIC_PASS_2!;
-const PASSWORD_PART_3 = process.env.NEXT_PUBLIC_PASS_3!;
+// const PASSWORD_PART_1 = process.env.NEXT_PUBLIC_PASS_1!;
+// const PASSWORD_PART_2 = process.env.NEXT_PUBLIC_PASS_2!;
+// const PASSWORD_PART_3 = process.env.NEXT_PUBLIC_PASS_3!;
 
 export default function Home() {
   // const [authenticated, setAuthenticated] = useState(false);
   // const [authChecked, setAuthChecked] = useState(false);
   // const [password, setPassword] = useState("");
-  const [showHint, setShowHint] = useState(true);
+  // const [showHint, setShowHint] = useState(true);
   const [step, setStep] = useState(Number(storage.get("quiz_step")) || 1);
   const [finalData, setFinalData] = useState<{
     date: Date;
