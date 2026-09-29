@@ -9,7 +9,7 @@ import {
   APPOINTMENT_OPTIONS,
   STEPS,
 } from "@/utils/constants";
-import { useOnTrue } from "@/hooks/useOnTrue";
+// import { useOnTrue } from "@/hooks/useOnTrue";
 import { storage } from "@/lib/browser/storage";
 import Music from "@/components/music";
 
@@ -547,7 +547,7 @@ function Step6({ onNext }: { onNext: () => void }) {
 
   return (
     <>
-      <Music />
+      {/* <Music /> */}
       <div className="step-enter">
         {/* <div className="step-number">6 / 6</div> */}
         <div className="card-ornament">✦ ✦ ✦</div>
