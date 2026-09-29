@@ -323,7 +323,11 @@ function Step2({ onNext }: { onNext: () => void }) {
     //         : "Դժվար չէր կռահելը։😊",
     // );
 
-    success(SUCCESS_MESSAGES[value] ?? "Դժվար չէր կռահելը։😊");
+    success(
+      value in SUCCESS_MESSAGES
+        ? SUCCESS_MESSAGES[value as keyof typeof SUCCESS_MESSAGES]
+        : "Դժվար չէր կռահելը։😊",
+    );
 
     setTimeout(() => {
       onNext();
