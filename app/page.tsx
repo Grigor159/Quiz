@@ -8,6 +8,7 @@ import {
   WEEKDAYS_FULL,
   APPOINTMENT_OPTIONS,
   STEPS,
+  SUCCESS_MESSAGES,
 } from "@/utils/constants";
 // import { useOnTrue } from "@/hooks/useOnTrue";
 import { storage } from "@/lib/browser/storage";
@@ -130,6 +131,68 @@ function ProgressBar({ current }: { current: number }) {
 }
 
 // ─── Steps ───
+function Step0({ onNext }: { onNext: () => void }) {
+  return (
+    <div className="step-enter">
+      {/* <div className="step-number">1 / 6</div> */}
+      <div className="card-ornament">✦ ✦ ✦</div>
+      <p className="quiz-desc">
+        Էն օվա եկել․․․ Բարև ձեզ )
+        <br />
+        <br />
+        Ոնց երևաց չհավատացիր,որ քո անձնական տվյալները չեմ ուզում գողանամ։ Մի
+        կողմից լավա,որ տենց մեծ կարծիքի ես իմ մասին,ու նենցա տեխնիկապես
+        հնարավորա, ուղղակի պլաններիս մեջ չկա դատվել,գնալ նստել․․․չեմ ուզւմ։
+        Մյուս կողմից էլ վատա,որ թերագնահատում եսմտածելով,որ ուզեի ապա էտ տարբերակը պտի ընտրեի գողության։
+        <br />
+        <br />
+        Համ էլ🤣, մեր մեջի գողը դու ես․․․
+        <br />
+        <br />
+        Չհավատալդ երևաց նրանից,որ ինձ մաիլ չեկավ։
+        <br />
+        <br />
+        Խի էս տարբերակը ընտրեցի․
+        <br />
+        <br />
+        1. Հարցերիս պատասխանելու հավես բանա (չեն չորում համ․ դեպս😏)։
+        <br />
+        2. Պատասխանները վերջում գալու էր իմ մաիլին (իրավաբանների հետ
+        խոսացել եմ ասել են,որ անձնական տվյալների գողություն չի🤣)։
+        <br />
+        3. Բացի պատասխանները համ էլ փոխշահավետ առաջարկ կա էջերից մեկում🤣(վերջերին մոտ)
+        <br />
+        4. Ինչի մաիլ - մնացած տարբերակներում արդեն պտի ինֆո լրացնեիր քեզնից իսկ
+        սենց սայտից զուտ պատասխանդ կգա մաիլիս։ (ձեր այթիշնիկներին հարցրա EmailJS ը ինչա, եթե էլի կասկածներ մնաց🤣)
+        <br />
+        <br />
+        Սենց վախտերը որ հավատան լավ հայկական ձև կա,բայց բեր չերդվամ էլի🤣։
+        <br />
+        <br />
+        Հա քիչ էր մնում մոռանաի այ շուստրի․․․
+        <br />
+        <br />
+        Էտ որ ասեցիր բեր քո հեռախոսով անեմ նենցա խնդիր չկար, ուղղակի ուզում էի
+        ու հիմա էլ եմ ուզում, որ մենակ լինես լրացնելուց (ընդեղ մի էջ կա երգով ու
+        ոնց որ լաաավ բացվել եմ սկսել եմ անկեղծանալը․․․համ էլ սաղ էֆեկտը էնա, որ
+        չիմանամ երբ ու ինչ պատասխան կգա էլի․․․ ոնց որ ինձ էլ անակնկալ լինի)
+      </p>
+
+      <div className="btn-row">
+        <button
+          className="btn primary"
+          onClick={() => {
+            onNext();
+            storage.set("quiz_step", 1);
+          }}
+        >
+          Ինքը զուտ կնոպկայա,իրան պետքա սխմես,որ գնաս հաջորդ էջ🤣։
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function Step1({ onNext }: { onNext: () => void }) {
   return (
     <div className="step-enter">
@@ -159,7 +222,7 @@ function Step1({ onNext }: { onNext: () => void }) {
             onNext();
           }}
         >
-          Ըհը
+          Ըհը (Նչանակումա այո)
         </button>
       </div>
       <div className="btn-row">
@@ -176,6 +239,57 @@ function Step1({ onNext }: { onNext: () => void }) {
           }}
         >
           Չգիտեմ,ես տենց բան չեմ հիշում,հաստատ էն նմանակսա եղել😏
+        </button>
+      </div>
+      <div className="btn-row">
+        <button
+          className="btn primary"
+          onClick={() => {
+            storage.set("quiz_step", 2);
+            storage.set(
+              "quiz_wish",
+              "Լսի ուրեմն ինձ որ տոկը խփեց․․․տենց էլի․․․չեմ հիշում🤣",
+            );
+            success("Վայ ես դրա...");
+            onNext();
+          }}
+        >
+          Լսիիի,ուրեմն ինձ որ տոկը խփեց․․․տենց էլի․․․չեմ հիշում🤣
+        </button>
+      </div>
+      <div className="btn-row">
+        <button
+          className="btn primary"
+          onClick={() => {
+            storage.set("quiz_wish", "Դահլիճի օգնություն");
+            storage.set("quiz_step", 2);
+            success("Դահլիճը ասումա ինձ մի խառնեք,դուք ձեր հարցերը․․․");
+            onNext();
+          }}
+        >
+          🆘 Դահլիճի օգնություն
+        </button>
+        <button
+          className="btn primary"
+          onClick={() => {
+            storage.set("quiz_step", 2);
+            storage.set("quiz_wish", "50/50");
+            success("Պոլե չուդես սարքիր լրիվ🤣");
+            onNext();
+          }}
+        >
+          🆘 50/50
+        </button>
+        <button
+          className="btn primary"
+          onClick={() => {
+            // storage.set("quiz_step", 2);
+            storage.set("quiz_wish", "Ըհը");
+            success("Զանգի ճշտի🤣։Ունես 1 րոպե 35 վարկյան");
+            // onNext();
+          }}
+        >
+          🆘 Զանգ ընկերոջը
         </button>
       </div>
     </div>
@@ -199,19 +313,22 @@ function Step2({ onNext }: { onNext: () => void }) {
 
     sessionStorage.setItem("quiz_reason", label.split(" ").slice(1).join(" "));
 
-    success(
-      value?.includes("tasteless")
-        ? "Ես էլ,թխի թող գա։🖐️​"
-        : value?.includes("ready")
-          ? "Անցանք առաջ։"
-          : value?.includes("assistant")
-            ? "Առհամարհելով անցնողն էլ ուրեմն դու չես եղել։"
-            : "Դժվար չէր կռահելը։😊",
-    );
+    // success(
+    //   value?.includes("tasteless")
+    //     ? "Ես էլ,թխի թող գա։🖐️​"
+    //     : value?.includes("ready")
+    //       ? "Անցանք առաջ։"
+    //       : value?.includes("assistant")
+    //         ? "Առհամարհելով անցնողն էլ ուրեմն դու չես եղել։"
+    //         : "Դժվար չէր կռահելը։😊",
+    // );
+
+    success(SUCCESS_MESSAGES[value] ?? "Դժվար չէր կռահելը։😊");
+
     setTimeout(() => {
       onNext();
       storage.set("quiz_step", 3);
-    }, 1700);
+    }, 1500);
   };
 
   return (
@@ -243,7 +360,20 @@ function Step2({ onNext }: { onNext: () => void }) {
   );
 }
 
-function Step3({ onNext }: { onNext: () => void }) {
+function Step3({ onNext }: { onNext: (step: number) => void }) {
+  const handleNext = (analyze: "Այո" | "Ոչ") => {
+    storage.set("quiz_analyze", analyze);
+
+    if (analyze === "Ոչ") {
+      storage.set("quiz_step", 5);
+      onNext(5);
+      return;
+    }
+
+    storage.set("quiz_step", 4);
+    onNext(4);
+  };
+
   return (
     <div className="step-enter">
       {/* <div className="step-number">03 / 06</div> */}
@@ -254,28 +384,10 @@ function Step3({ onNext }: { onNext: () => void }) {
       </h1>
 
       <div className="btn-row">
-        <button
-          className="btn danger-btn"
-          onClick={() => {
-            success(
-              "Անհնարա! կարողա պահերա եղել, որ ասել ես ավելի կոպիտ պտի արտահայտվեի նույնիսկ🙃։ Ես էլ եմ վերլուծել ու ասեմ, որ դրանից ավել չի լինում😏։ Տակ շտո անցաենք առաջ։",
-            );
-            onNext();
-            storage.set("quiz_analyze", "Ոչ");
-            storage.set("quiz_step", 4);
-          }}
-        >
+        <button className="btn danger-btn" onClick={() => handleNext("Ոչ")}>
           Ոչ
         </button>
-        <button
-          className="btn primary"
-          onClick={() => {
-            success("ԸՀԸԸԸԸ՛");
-            onNext();
-            storage.set("quiz_step", 4);
-            storage.set("quiz_analyze", "Այո");
-          }}
-        >
+        <button className="btn primary" onClick={() => handleNext("Այո")}>
           Այո
         </button>
       </div>
@@ -547,11 +659,11 @@ function Step6({ onNext }: { onNext: () => void }) {
 
   return (
     <>
-      {/* <Music /> */}
+      <Music />
       <div className="step-enter">
         {/* <div className="step-number">6 / 6</div> */}
         <div className="card-ornament">✦ ✦ ✦</div>
-        <h1 className="quiz-title">Ինչնա էս ամենի իմաստը</h1>
+        <h1 className="quiz-title">ԷԷԷԷԷԷսսսս ուրես,սառած էր հա՞ ճանփեքը🤣</h1>
 
         <p className="quiz-desc">
           Էն, որ կարդում ես վկայումա, որ կարևորություն տրվեց երկուսիս կողմից էլ
@@ -657,9 +769,8 @@ function Step7({
       {/* <div className="step-number">6 / 6</div> */}
       <div className="card-ornament">✦ ✦ ✦</div>
       <p className="quiz-desc" style={{ textAlign: "center" }}>
-        Արի ընդունենք, որ իրականում մի անկեղծ զրույցը կարա մոռացնել տա ցանկացած
-        նեղվածություն կամ տարակարծություն ու մեզ հենց դայա պակասում։ Հետևաբար,
-        ակնկալում եմ պատասխան։
+        Իրականում մի անկեղծ զրույցը հերիքա դիմացինին ճանաչելու համար ու մեզ
+        հենց դայա պակասում։ Հետևաբար, ակնկալում եմ պատասխան։
       </p>
 
       <h1 className="quiz-title">Դե բեր օր ու ժամ ընտրի😊։</h1>
@@ -765,7 +876,7 @@ export default function Home() {
   // const [authChecked, setAuthChecked] = useState(false);
   // const [password, setPassword] = useState("");
   // const [showHint, setShowHint] = useState(true);
-  const [step, setStep] = useState(Number(storage.get("quiz_step")) || 1);
+  const [step, setStep] = useState(Number(storage.get("quiz_step")) || 0);
   const [finalData, setFinalData] = useState<{
     date: Date;
     h: number;
@@ -915,21 +1026,23 @@ export default function Home() {
             min={finalData.m}
             place={finalData.p}
           />
+        ) : step === 0 ? (
+          <Step0 onNext={() => setStep(1)} />
         ) : step === 1 ? (
           <Step1 onNext={() => setStep(2)} />
         ) : step === 2 ? (
           <Step2 onNext={() => setStep(3)} />
         ) : step === 3 ? (
-          <Step3 onNext={() => setStep(4)} />
+          <Step3 onNext={(nextStep) => setStep(nextStep)} />
         ) : step === 4 ? (
           <Step4 onNext={() => setStep(5)} />
         ) : step === 5 ? (
           <Step5 onNext={() => setStep(6)} />
         ) : step === 6 ? (
           <Step6 onNext={() => setStep(7)} />
-        ) : (
+        ) : step === 7 ? (
           <Step7 onDone={(d, h, m, p) => setFinalData({ date: d, h, m, p })} />
-        )}
+        ) : null}
       </div>
     </main>
   );
