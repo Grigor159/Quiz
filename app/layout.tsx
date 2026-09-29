@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChakraUIProvider } from "@/providers/chakraProvider";
 import { Analytics } from "@vercel/analytics/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -62,6 +63,7 @@ export default function RootLayout({
         <ChakraUIProvider>
           {children}
           <Analytics />
+        <GoogleAnalytics gaId="G-XX0D7D7FJC" />
         </ChakraUIProvider>
       </body>
     </html>
